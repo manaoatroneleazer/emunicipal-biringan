@@ -75,7 +75,7 @@ $router->post('/register', AuthController::class, 'register');
 $router->post('/logout',  AuthController::class, 'logout');
 
 // ---------------------------------------------------------------------------
-// RESIDENT ROUTES
+// RESIDENT ROUTESss
 // ---------------------------------------------------------------------------
 
 $router->get('/resident/dashboard',           ResidentDashboardController::class, 'index');
