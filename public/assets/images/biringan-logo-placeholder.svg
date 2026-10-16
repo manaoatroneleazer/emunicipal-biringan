@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Biringan City Administration logo placeholder">
+  <title>Biringan City Administration</title>
+  <!-- Outer decorative ring -->
+  <circle cx="60" cy="60" r="56" fill="none" stroke="#D8B06A" stroke-width="1.5" opacity="0.6"/>
+  <!-- Inner background circle -->
+  <circle cx="60" cy="60" r="50" fill="#2B173D"/>
+  <!-- Gold geometric accent ring -->
+  <circle cx="60" cy="60" r="43" fill="none" stroke="#D8B06A" stroke-width="0.75" opacity="0.4"/>
+  <!-- Crystal / portal motif — outer diamond -->
+  <polygon points="60,18 78,48 60,58 42,48" fill="#4A1F46" stroke="#D8B06A" stroke-width="1"/>
+  <!-- Crystal lower -->
+  <polygon points="60,98 78,68 60,58 42,68" fill="#3a1533" stroke="#D8B06A" stroke-width="1"/>
+  <!-- Crystal highlight left facet -->
+  <polygon points="42,48 60,58 42,68" fill="#D85C86" opacity="0.55"/>
+  <!-- Crystal highlight right facet -->
+  <polygon points="78,48 60,58 78,68" fill="#E982A5" opacity="0.35"/>
+  <!-- Centre gem -->
+  <circle cx="60" cy="58" r="6" fill="#D8B06A" opacity="0.9"/>
+  <!-- Gold top accent lines -->
+  <line x1="52" y1="16" x2="68" y2="16" stroke="#D8B06A" stroke-width="1" opacity="0.5"/>
+  <!-- Bottom accent lines -->
+  <line x1="52" y1="100" x2="68" y2="100" stroke="#D8B06A" stroke-width="1" opacity="0.5"/>
+</svg>

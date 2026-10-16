@@ -1,0 +1,332 @@
+{
+  "pbtResults": {
+    "1. Write bug condition exploration test": {
+      "status": "passed",
+      "failingExample": "DEFECT-1: Line 75 of auth.php — `<header class=\"auth-header\" role=\"banner\">` present.\nDEFECT-2: `/resident/track` link absent from Resident sidebar block in auth.php.\nDEFECT-3: FAQ array contains 6 entries (expected ≥ 15).\nDEFECT-4: Line 321 of admin/requests/show.php — `data-confirm=\"Confirm: ...\"` on Begin Verification form; #modal-under_verification absent.\nDEFECT-5: Line 300 of admin/requests/show.php — \"terminal state\" generic message; \"Already Completed\" and \"Request Cancelled\" both absent.\nDEFECT-6: Line 318 of staff/requests/show.php — \"terminal state\" generic message; status-specific messages absent.\nDEFECT-7: Right column of resident/requests/show.php has no completed/cancelled status card — only the ready_for_claiming block exists.",
+      "lastRunTimestamp": 1788009836586
+    }
+  },
+  "executionHistory": {
+    "1. Write bug condition exploration test": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009688490
+      },
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009699103
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788047914499
+      }
+    ],
+    "2. Write preservation property tests (BEFORE implementing fix)": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689004
+      },
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009703339
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788047920080
+      }
+    ],
+    "3.1 Update `.sidebar` top and height values": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689105
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788047929540
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048037524
+      }
+    ],
+    "3.2 Update `.auth-content` margin and min-height values": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689185
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788047930159
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048038265
+      }
+    ],
+    "4.1 Remove the entire `<header class=\"auth-header\">` block": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689246
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788047930815
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048039143
+      }
+    ],
+    "4.2 Add user identity strip inside the sidebar (after sidebar-brand block)": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689299
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788047931593
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048203687
+      }
+    ],
+    "4.3 Add mobile sidebar toggle button inside `<main class=\"auth-content\">`": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689354
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788047932414
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048204461
+      }
+    ],
+    "4.4 Add \"Track Request\" navigation link to the Resident sidebar block": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689450
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048039906
+      }
+    ],
+    "5.1 Replace \"Begin Verification\" data-confirm form with a Bootstrap modal trigger": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689553
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048048627
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048205459
+      }
+    ],
+    "5.2 Add the Begin Verification confirmation modal to the modal-generation loop": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689609
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048049686
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048206401
+      }
+    ],
+    "5.3 Replace generic terminal-state message with status-specific messages": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689669
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048050820
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048207324
+      }
+    ],
+    "6.1 Replace generic terminal-state message with status-specific messages": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689726
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048516077
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048581027
+      }
+    ],
+    "7.1 Add \"Request Completed\" and \"Request Cancelled\" right-column status cards": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689782
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048517144
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048581957
+      }
+    ],
+    "8.1 Replace 6-item FAQ array with 15-item FAQ array": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689835
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048040861
+      }
+    ],
+    "9. Verify bug condition exploration test now passes": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689886
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048586861
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048761903
+      }
+    ],
+    "10. Verify preservation tests still pass": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689937
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048587685
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048762550
+      }
+    ],
+    "11. Checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "1efefe46-9158-4fe8-84ca-25bd889d7571",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788009689987
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048767481
+      },
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788049101563
+      }
+    ],
+    "3. Fix CSS layout offsets (app.css)": [
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048038378
+      }
+    ],
+    "8. Fix landing page FAQ (views/home/index.php)": [
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048040993
+      }
+    ],
+    "4. Fix authenticated layout (views/layouts/auth.php)": [
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048204704
+      }
+    ],
+    "5. Fix Admin request detail view (views/admin/requests/show.php)": [
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048207457
+      }
+    ],
+    "6. Fix Staff request detail view (views/staff/requests/show.php)": [
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048581273
+      }
+    ],
+    "7. Fix Resident request detail view (views/resident/requests/show.php)": [
+      {
+        "executionId": "ae8d5f50-1609-4fb6-b46b-718c50544040",
+        "chatSessionId": "sess_857dac45-07aa-4de5-bd81-cff1efda4ace",
+        "timestamp": 1788048582092
+      }
+    ]
+  }
+}

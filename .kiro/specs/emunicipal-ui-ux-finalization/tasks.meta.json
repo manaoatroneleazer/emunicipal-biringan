@@ -1,0 +1,499 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Add CSS sections §22–26 to `app.css`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982199109
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982212411
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982314548
+      }
+    ],
+    "1.3 Add JS utilities to `app.js`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982199827
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982213639
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982315301
+      }
+    ],
+    "2.1 Update `views/layouts/auth.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982199962
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982321209
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982421686
+      }
+    ],
+    "2.2 Update `views/layouts/minimal.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200057
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982321839
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982422240
+      }
+    ],
+    "3. Checkpoint — Foundations complete": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200148
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982434613
+      }
+    ],
+    "4.1 Update `views/resident/dashboard/index.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200245
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982456735
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983596095
+      }
+    ],
+    "4.2 Update `views/resident/requests/index.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200339
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982457292
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983596830
+      }
+    ],
+    "5.1 Update `views/resident/requests/new.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200440
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982458277
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983597621
+      }
+    ],
+    "6.1 Update `views/resident/requests/show.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200541
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982458790
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983598413
+      }
+    ],
+    "6.2 Update `views/resident/requests/track.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200633
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982459610
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983599174
+      }
+    ],
+    "7. Checkpoint — Resident views complete": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200749
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983604376
+      }
+    ],
+    "8.1 Update `views/staff/requests/index.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200838
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983609914
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984214147
+      }
+    ],
+    "9.1 Update `views/staff/requests/show.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982200959
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983610759
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984214856
+      }
+    ],
+    "10. Checkpoint — Staff views complete": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201104
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984220061
+      }
+    ],
+    "11.1 Update `views/admin/dashboard/index.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201191
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984227293
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985322696
+      }
+    ],
+    "11.2 Update `views/admin/requests/index.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201288
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984228000
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985323408
+      }
+    ],
+    "11.3 Update `views/admin/requests/show.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201435
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984228749
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985324100
+      }
+    ],
+    "12.1 Update `views/admin/users/index.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201531
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984229575
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985324854
+      }
+    ],
+    "12.2 Update `views/admin/users/create.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201641
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984230085
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985325399
+      }
+    ],
+    "13.1 Update `views/admin/document-types/index.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201745
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985316254
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985326479
+      }
+    ],
+    "13.2 Update `views/admin/document-requirements/index.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201849
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985316969
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985326902
+      }
+    ],
+    "14. Checkpoint — Admin views complete": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982201934
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985333563
+      }
+    ],
+    "15.1 Refactor `views/errors/404.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982202030
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985339489
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985503668
+      }
+    ],
+    "15.2 Refactor `views/errors/403.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982202131
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985340271
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985504377
+      }
+    ],
+    "15.3 Refactor `views/errors/500.php`": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982202252
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985340832
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985504846
+      }
+    ],
+    "16. Final Checkpoint — Full pass complete": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982202391
+      },
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985864225
+      }
+    ],
+    "1. CSS and JS Foundations": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982315497
+      }
+    ],
+    "2. Shared Layout Polish": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787982422383
+      }
+    ],
+    "4. Resident Views — Dashboard and Request List": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983596955
+      }
+    ],
+    "5. Resident Views — New Request Form": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983597740
+      }
+    ],
+    "6. Resident Views — Request Detail and Track": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787983599304
+      }
+    ],
+    "8. Staff Views — Request List": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984214362
+      }
+    ],
+    "9. Staff Views — Request Detail": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787984214975
+      }
+    ],
+    "11. Admin Views — Dashboard and Request Management": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985324274
+      }
+    ],
+    "12. Admin Views — User Management": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985325539
+      }
+    ],
+    "13. Admin Views — Document Types and Requirements": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985327087
+      }
+    ],
+    "15. Error Pages": [
+      {
+        "executionId": "c1bab376-95ff-498a-936b-09f71f446f6f",
+        "chatSessionId": "sess_7236d18c-e57f-4198-85e7-6f47a5795ea8",
+        "timestamp": 1787985504975
+      }
+    ]
+  }
+}

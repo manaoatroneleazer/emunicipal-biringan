@@ -1,0 +1,56 @@
+﻿# ---------------------------------------------------------------------------
+# eMunicipal root .htaccess
+#
+# Goal: browser-visible URLs are /eMunicipal/login, /eMunicipal/resident/dashboard, etc.
+# No /public/ appears in browser address bar.
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # -----------------------------------------------------------------------
+    # Security: block direct HTTP access to private directories and file types.
+    #
+    # These rules run BEFORE the real-file bypass (Rule 1 below) so that
+    # storage/, vendor/, .env, SQL dumps, and log files cannot be downloaded
+    # even when they physically exist on disk — which is the case in the
+    # XAMPP subdirectory deployment where everything sits under htdocs/.
+    #
+    # On production shared hosting, public/ is the document root so storage/
+    # is already above the web root and unreachable. These rules are a
+    # defence-in-depth measure for the XAMPP development environment and any
+    # hosting configuration that mirrors it.
+    # -----------------------------------------------------------------------
+
+    # Block access to the storage directory (SQL dumps, logs, uploads)
+    RewriteRule ^storage(/|$) - [F,L]
+
+    # Block access to the vendor directory (Composer internals)
+    RewriteRule ^vendor(/|$) - [F,L]
+
+    # Block access to .env and any dot-files (hidden files)
+    RewriteRule (^|/)\.env - [F,L]
+    RewriteRule (^|/)\. - [F,L]
+
+    # Block direct download of sensitive file types regardless of location
+    RewriteRule \.(sql|log|sh|bak|swp|swo|orig|phar)$ - [F,L]
+
+    # -----------------------------------------------------------------------
+    # Rule 1: Serve real FILES directly (NOT directories — directories must
+    # fall through to Rule 3 so the router can handle / and sub-paths).
+    # Public assets (CSS, JS, images) are served here.
+    # -----------------------------------------------------------------------
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # -----------------------------------------------------------------------
+    # Rule 2: Pass /eMunicipal/public/ requests through (loop prevention)
+    # -----------------------------------------------------------------------
+    RewriteCond %{REQUEST_URI} ^/eMunicipal/public/
+    RewriteRule ^ - [L]
+
+    # -----------------------------------------------------------------------
+    # Rule 3: Route everything else (including directory requests like /)
+    # through public/index.php — browser URL is preserved unchanged.
+    # -----------------------------------------------------------------------
+    RewriteRule ^(.*)$ public/index.php [QSA,L]
+</IfModule>

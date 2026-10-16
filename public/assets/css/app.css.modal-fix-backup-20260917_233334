@@ -1,0 +1,4190 @@
+/*
+ * eMunicipal � Biringan City Design System
+ * Phase B1 UI/UX Redesign
+ * Bootstrap 5.3.2 required (loaded via CDN before this file).
+ */
+
+/* ================================================================
+   1. CSS DESIGN TOKENS � Biringan City Palette
+   ================================================================ */
+:root {
+    /* -- Biringan Deep Purple (new primary brand) -- */
+    --biringan-deep:      #120B1F;
+    --biringan-dark:      #1B102B;
+    --biringan-purple:    #2B173D;
+    --biringan-primary:   #4A1F46;
+
+    /* -- Accent � Rose / Pink -- */
+    --biringan-rose:      #D85C86;
+    --biringan-pink:      #E982A5;
+    --biringan-soft-pink: #F3C5D5;
+
+    /* -- Gold -- */
+    --biringan-gold:      #D8B06A;
+    --biringan-gold-light:#F0D9A0;
+
+    /* -- Light interface -- */
+    --biringan-bg:        #F8F6F8;
+    --biringan-card:      #FFFFFF;
+    --biringan-border:    #E8E0E8;
+    --biringan-text:      #241C29;
+    --biringan-muted:     #756C78;
+
+    /* -- Map existing --emu-* tokens to Biringan palette
+          All existing components using var(--emu-*) inherit new colours
+          automatically without touching any view files. -- */
+
+    /* Brand */
+    --emu-primary:       var(--biringan-primary);
+    --emu-primary-dark:  var(--biringan-purple);
+    --emu-primary-light: #6B2C67;
+
+    /* Accent */
+    --emu-accent:        var(--biringan-rose);
+    --emu-accent-light:  var(--biringan-pink);
+    --emu-accent-pale:   var(--biringan-soft-pink);
+
+    /* Legacy gold aliases */
+    --emu-gold:          var(--biringan-gold);
+    --emu-gold-light:    var(--biringan-gold-light);
+
+    /* Semantic � unchanged, still safe for status indicators */
+    --emu-success:       #1a7a4a;
+    --emu-warning:       #c8922a;
+    --emu-danger:        #b91c1c;
+    --emu-info:          #1d6fa4;
+    --emu-neutral:       #9ca3af;
+
+    /* Backgrounds */
+    --emu-bg-page:       var(--biringan-bg);
+    --emu-bg-surface:    var(--biringan-card);
+    --emu-bg-alt:        #F2EDF4;
+    --emu-bg-section:    var(--biringan-soft-pink);
+    --emu-bg-header:     var(--biringan-primary);
+    --emu-bg-footer:     var(--biringan-dark);
+    --emu-sidebar-bg:    var(--biringan-primary);
+    --emu-sidebar-active:rgba(216,92,134,0.18);
+
+    /* Text */
+    --emu-text-primary:   var(--biringan-text);
+    --emu-text-secondary: #4A3D50;
+    --emu-text-muted:     var(--biringan-muted);
+    --emu-text-link:      var(--biringan-rose);
+
+    /* Borders */
+    --emu-border:         var(--biringan-border);
+    --emu-border-focus:   var(--biringan-rose);
+    --emu-border-error:   #b91c1c;
+    --emu-divider:        #E4D8E8;
+
+    /* Shadows � deeper to match dark aesthetic */
+    --emu-shadow-1: 0 1px 3px rgba(74,31,70,0.10);
+    --emu-shadow-2: 0 4px 12px rgba(74,31,70,0.14);
+    --emu-shadow-3: 0 8px 24px rgba(74,31,70,0.20);
+
+    /* Layout */
+    --sidebar-width: 240px;
+    --header-height: 60px;
+}
+
+/* ================================================================
+   2. BASE & TYPOGRAPHY
+   ================================================================ */
+body {
+    background-color: var(--emu-bg-page);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--emu-text-primary);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Montserrat for headings */
+h1, h2, h3, h4, h5,
+.h1, .h2, .h3, .h4, .h5,
+.lp-hero-title,
+.lp-section-title,
+.welcome-banner h1,
+.page-hero h1 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+}
+
+/* ================================================================
+   3. BOOTSTRAP 5 OVERRIDES
+   ================================================================ */
+.btn-primary,
+.bg-primary { background-color: var(--biringan-primary) !important; }
+.btn-primary { border-color: var(--biringan-primary) !important; color: #fff !important; }
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--biringan-purple) !important;
+    border-color: var(--biringan-purple) !important;
+}
+
+.text-primary { color: var(--biringan-primary) !important; }
+.border-primary { border-color: var(--biringan-primary) !important; }
+
+.btn-outline-primary {
+    color: var(--biringan-primary) !important;
+    border-color: var(--biringan-primary) !important;
+}
+.btn-outline-primary:hover {
+    background-color: var(--biringan-primary) !important;
+    color: #fff !important;
+}
+
+/* Focus rings � rose glow */
+.btn:focus-visible,
+.form-control:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 3px rgba(216, 92, 134, 0.28) !important;
+    border-color: var(--biringan-rose) !important;
+    outline: none;
+}
+
+/* Success */
+.btn-success { background-color: var(--emu-success) !important; border-color: var(--emu-success) !important; }
+.btn-success:hover { background-color: #145e38 !important; }
+
+/* Danger */
+.btn-danger { background-color: var(--emu-danger) !important; border-color: var(--emu-danger) !important; }
+
+/* Warning � gold */
+.btn-warning {
+    background-color: var(--biringan-gold) !important;
+    border-color: var(--biringan-gold) !important;
+    color: var(--biringan-dark) !important;
+}
+.btn-warning:hover { background-color: #b8903a !important; }
+
+/* ================================================================
+   4. PUBLIC NAVIGATION BAR � Dark Biringan style
+   ================================================================ */
+.navbar-public {
+    background-color: var(--biringan-dark);
+    min-height: 64px;
+}
+.navbar-public .navbar-brand { color: #fff; font-weight: 600; font-size: 1.1rem; }
+.navbar-public .nav-link { color: rgba(255,255,255,0.85); font-size: 0.9375rem; padding: 0.5rem 0.875rem; }
+.navbar-public .nav-link:hover { color: var(--biringan-gold-light); }
+.navbar-public .nav-link.active { color: #fff; border-bottom: 2px solid var(--biringan-gold); }
+.navbar-public .navbar-toggler { border-color: rgba(255,255,255,0.4); }
+.navbar-public .navbar-toggler-icon { filter: invert(1); }
+
+/* ================================================================
+   5. PUBLIC FOOTER
+   ================================================================ */
+.footer-public {
+    background: linear-gradient(160deg, var(--biringan-dark) 0%, var(--biringan-deep) 100%);
+    color: rgba(255,255,255,0.80);
+    padding: 40px 0 0;
+    border-top: 1px solid rgba(216,176,106,0.20);
+}
+.footer-public h5,
+.footer-public .footer-heading {
+    color: var(--biringan-gold-light);
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.footer-public a { color: rgba(255,255,255,0.70); text-decoration: none; font-size: 0.8125rem; }
+.footer-public a:hover { color: var(--biringan-gold-light); }
+.footer-bottom {
+    border-top: 1px solid rgba(216,176,106,0.15);
+    padding: 14px 0;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.40);
+    margin-top: 24px;
+}
+
+/* ================================================================
+   6. AUTHENTICATED HEADER (legacy, kept for compat)
+   ================================================================ */
+.auth-header {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--header-height);
+    background: #fff;
+    border-bottom: 1px solid var(--emu-divider);
+    z-index: 1030;
+    display: flex; align-items: center; padding: 0 1rem;
+}
+.auth-header .brand-text { color: var(--biringan-primary); font-weight: 600; font-size: 1rem; }
+
+/* ================================================================
+   7. SIDEBAR NAVIGATION � Deep Biringan Purple
+   ================================================================ */
+.sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    width: var(--sidebar-width);
+    background: linear-gradient(180deg, var(--biringan-purple) 0%, var(--biringan-dark) 100%);
+    border-right: none;
+    overflow-y: auto;
+    z-index: 1020;
+    transition: transform 0.25s ease;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.sidebar::-webkit-scrollbar { display: none; }
+
+.sidebar-nav { padding: 0.5rem 0; }
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 18px;
+    color: rgba(255,255,255,0.78);
+    font-size: 0.9rem;
+    font-weight: 400;
+    border-left: 3px solid transparent;
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none;
+    border-radius: 0;
+}
+.sidebar-nav .nav-link:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+.sidebar-nav .nav-link.active {
+    background: rgba(216,92,134,0.20);
+    border-left-color: var(--biringan-rose);
+    color: #fff;
+    font-weight: 600;
+}
+.sidebar-nav .nav-link i { font-size: 1.05rem; color: rgba(255,255,255,0.65); }
+.sidebar-nav .nav-link:hover i,
+.sidebar-nav .nav-link.active i { color: var(--biringan-pink); }
+
+.sidebar-section-label {
+    padding: 1.25rem 18px 0.3rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.35);
+}
+
+/* Sidebar brand block */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1.125rem 1.25rem 0.875rem;
+    border-bottom: 1px solid rgba(216,176,106,0.18);
+    margin-bottom: 0.25rem;
+    text-decoration: none;
+}
+.sidebar-brand-logo {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+.sidebar-brand .sidebar-brand-name {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+}
+.sidebar-brand .sidebar-brand-sub {
+    font-size: 0.625rem;
+    color: var(--biringan-gold-light);
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.8;
+}
+
+/* Sidebar user strip */
+.sidebar-user {
+    padding: 0.625rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+/* Logout button */
+.sidebar-nav .nav-link.logout-link,
+.sidebar-nav .nav-link.logout-link i { color: #fca5a5 !important; }
+.sidebar-nav .nav-link.logout-link:hover {
+    background: rgba(239,68,68,0.18) !important;
+    color: #fca5a5 !important;
+}
+
+/* ================================================================
+   8. AUTHENTICATED MAIN CONTENT AREA
+   ================================================================ */
+.auth-content {
+    margin-left: var(--sidebar-width);
+    margin-top: 0;
+    padding: 1.75rem 1.5rem;
+    min-height: 100vh;
+    background: var(--biringan-bg);
+}
+
+@media (max-width: 991.98px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.sidebar-open { transform: translateX(0); }
+    .auth-content { margin-left: 0; }
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(18, 11, 31, 0.65);
+        z-index: 1019;
+    }
+    .sidebar-overlay.active { display: block; }
+}
+
+/* ================================================================
+   9. CARDS
+   ================================================================ */
+.card {
+    border-radius: 10px !important;
+    border-color: var(--biringan-border) !important;
+    box-shadow: var(--emu-shadow-1);
+    background: var(--biringan-card);
+}
+.card-header {
+    background-color: var(--emu-bg-alt) !important;
+    font-weight: 600;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    border-bottom-color: var(--biringan-border) !important;
+    border-radius: 10px 10px 0 0 !important;
+}
+.card:hover {
+    box-shadow: var(--emu-shadow-2) !important;
+    transition: box-shadow 0.18s ease;
+}
+
+/* ================================================================
+   10. STATUS BADGES
+   ================================================================ */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+}
+.status-pending              { background: #ece9f0; color: #574860; }
+.status-under_verification   { background: #dbeafe; color: #1d4ed8; }
+.status-additional_info_required { background: #fef3c7; color: #92400e; }
+.status-approved             { background: #d1fae5; color: #065f46; }
+.status-rejected             { background: #fee2e2; color: #991b1b; }
+.status-ready_for_claiming   { background: rgba(216,176,106,0.22); color: #7a5010; }
+.status-completed            { background: #bbf7d0; color: #14532d; }
+.status-cancelled            { background: #e8e0e8; color: #4A3D50; }
+
+/* ================================================================
+   11. TABLES
+   ================================================================ */
+.table thead th {
+    background-color: var(--emu-bg-alt);
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border-bottom: 2px solid var(--biringan-border);
+    color: var(--emu-text-secondary);
+    /* Fix: explicit horizontal padding so all admin tables have consistent breathing room */
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+}
+.table tbody td {
+    /* Fix: explicit cell padding for admin tables using .table.table-hover (not .b2-table) */
+    padding: 0.875rem 1rem;
+    vertical-align: middle;
+    font-size: 0.875rem;
+}
+.table tbody tr { min-height: 48px; }
+.table-actions { text-align: right; white-space: nowrap; }
+.table-hover tbody tr:hover {
+    background-color: rgba(74,31,70,0.04) !important;
+}
+
+/* ================================================================
+   12. FORMS
+   ================================================================ */
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--emu-text-primary);
+    margin-bottom: 0.35rem;
+}
+.form-text { font-size: 0.8rem; color: var(--emu-text-muted); }
+.form-control, .form-select {
+    border-color: var(--biringan-border);
+    border-radius: 6px;
+    background: #fff;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--biringan-rose);
+    box-shadow: 0 0 0 3px rgba(216,92,134,0.20);
+}
+.form-control.is-invalid,
+.form-select.is-invalid { border-color: var(--emu-border-error) !important; }
+.invalid-feedback { font-size: 0.8125rem; }
+
+/* ================================================================
+   13. DASHBOARD METRIC CARDS
+   ================================================================ */
+.metric-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--biringan-card);
+    border-radius: 12px !important;
+    box-shadow: var(--emu-shadow-1);
+    padding: 1.375rem 1.5rem 1.125rem !important;
+    border: 1px solid var(--biringan-border) !important;
+    border-left-width: 0 !important;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.metric-card::before { display: none; }
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--emu-shadow-2) !important;
+}
+.metric-card-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+.metric-card-icon.icon-primary   { background: rgba(74,31,70,0.12);  color: var(--biringan-primary); }
+.metric-card-icon.icon-pending    { background: rgba(117,108,120,0.15); color: var(--biringan-muted); }
+.metric-card-icon.icon-approved   { background: rgba(26,122,74,0.12);  color: var(--emu-success); }
+.metric-card-icon.icon-claiming   { background: rgba(216,176,106,0.20); color: #8a6020; }
+.metric-card-icon.icon-completed  { background: rgba(20,83,45,0.12);   color: #14532d; }
+.metric-card-icon.icon-danger     { background: rgba(185,28,28,0.10);  color: var(--emu-danger); }
+.metric-card-icon.icon-info       { background: rgba(29,111,164,0.12); color: var(--emu-info); }
+.metric-card-icon.icon-warning    { background: rgba(216,176,106,0.18); color: var(--biringan-gold); }
+.metric-card .metric-value {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.875rem !important;
+    font-weight: 700;
+    color: var(--emu-text-primary);
+    line-height: 1;
+}
+.metric-card .metric-label {
+    font-size: 0.8125rem !important;
+    color: var(--emu-text-muted);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+.metric-card .metric-sub {
+    font-size: 0.72rem;
+    color: var(--emu-text-muted);
+    margin-top: 0.35rem;
+}
+
+/* ================================================================
+   14. STATUS TIMELINE
+   ================================================================ */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.6rem; top: 0.5rem; bottom: 0.5rem;
+    width: 2px;
+    background: var(--biringan-border);
+}
+.timeline-item { position: relative; margin-bottom: 1.5rem; }
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.4rem; top: 0.35rem;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--emu-neutral);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px var(--emu-neutral);
+}
+.timeline-item.completed::before { background: var(--emu-success); box-shadow: 0 0 0 2px var(--emu-success); }
+.timeline-item.current::before   { background: var(--biringan-rose); box-shadow: 0 0 0 2px var(--biringan-rose); }
+.timeline-item.rejected::before  { background: var(--emu-danger);  box-shadow: 0 0 0 2px var(--emu-danger); }
+.timeline-item.cancelled::before { background: #6b7280; box-shadow: 0 0 0 2px #6b7280; }
+
+/* ================================================================
+   15. NOTIFICATION ITEMS
+   ================================================================ */
+.notif-badge {
+    position: absolute; top: -4px; right: -6px;
+    font-size: 0.65rem; min-width: 18px; height: 18px;
+    line-height: 18px; text-align: center;
+    border-radius: 50%;
+    background: var(--biringan-rose); color: #fff; padding: 0 3px;
+}
+.notif-item-unread {
+    border-left: 3px solid var(--biringan-rose);
+    background: rgba(74,31,70,0.04);
+    font-weight: 600;
+}
+.notif-item-read { border-left: 3px solid transparent; }
+
+/* ================================================================
+   16. FILE UPLOAD DROP ZONE
+   ================================================================ */
+.drop-zone {
+    border: 2px dashed var(--biringan-border);
+    border-radius: 10px;
+    background: var(--biringan-bg);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+.drop-zone:hover,
+.drop-zone.active {
+    border-color: var(--biringan-rose);
+    background: rgba(216,92,134,0.05);
+}
+
+/* ================================================================
+   17. PAGE HERO (public pages)
+   ================================================================ */
+.page-hero {
+    background: linear-gradient(135deg, var(--biringan-primary) 0%, var(--biringan-purple) 100%);
+    color: #fff;
+    padding: 4rem 0;
+}
+.page-hero-sm {
+    background: linear-gradient(135deg, var(--biringan-primary) 0%, var(--biringan-purple) 100%);
+    color: #fff;
+    padding: 2.5rem 0;
+}
+.page-hero h1 { font-family: 'Montserrat', 'Inter', sans-serif; font-weight: 700; color: #fff; }
+.page-hero p  { opacity: 0.85; }
+
+/* ================================================================
+   18. MINIMAL LAYOUT (login/register)
+   ================================================================ */
+.minimal-layout {
+    min-height: 100vh;
+    background: var(--biringan-primary);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+}
+
+/* ================================================================
+   19. BREADCRUMB
+   ================================================================ */
+.breadcrumb-item { font-size: 0.875rem; }
+.breadcrumb-item a { color: var(--emu-text-muted); text-decoration: none; }
+.breadcrumb-item a:hover { color: var(--biringan-rose); }
+.breadcrumb-item.active { color: var(--emu-text-primary); }
+
+/* ================================================================
+   20. EMPTY STATE
+   ================================================================ */
+.empty-state { text-align: center; padding: 3rem 1rem; color: var(--emu-text-muted); }
+.empty-state i { font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--biringan-soft-pink); }
+.empty-state h5 { font-size: 1rem; font-weight: 600; color: var(--emu-text-primary); margin-bottom: 0.5rem; }
+.empty-state p  { font-size: 0.875rem; margin-bottom: 1.25rem; }
+
+/* ================================================================
+   21. MISCELLANEOUS UTILITIES
+   ================================================================ */
+.text-gold  { color: var(--biringan-gold) !important; }
+.bg-section { background-color: var(--biringan-soft-pink) !important; }
+.shadow-1   { box-shadow: var(--emu-shadow-1) !important; }
+a { transition: color 0.15s; }
+
+.btn-sidebar-toggle {
+    background: none; border: none;
+    color: var(--emu-text-secondary);
+    font-size: 1.25rem; padding: 0.25rem 0.5rem; cursor: pointer;
+}
+.btn-sidebar-toggle:hover { color: var(--biringan-rose); }
+
+.step-number {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--biringan-primary); color: #fff;
+    font-size: 1.5rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem; flex-shrink: 0;
+}
+.benefit-icon { font-size: 2rem; color: var(--biringan-primary); margin-bottom: 0.75rem; }
+
+/* Document type selectable card */
+.doc-type-card {
+    cursor: pointer;
+    border: 2px solid var(--biringan-border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.18s;
+    height: 100%;
+    box-shadow: var(--emu-shadow-1);
+}
+.doc-type-card:hover {
+    border-color: var(--biringan-rose);
+    background: rgba(216,92,134,0.04);
+    box-shadow: var(--emu-shadow-2);
+    transform: translateY(-2px);
+}
+.doc-type-card.selected {
+    border-color: var(--biringan-primary);
+    background: rgba(74,31,70,0.06);
+    box-shadow: 0 0 0 2px var(--biringan-primary);
+}
+.doc-type-card:focus-within {
+    box-shadow: var(--emu-shadow-2);
+    border-color: var(--biringan-rose);
+    outline: none;
+}
+.doc-type-card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: rgba(74,31,70,0.10);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem;
+    color: var(--biringan-primary);
+    flex-shrink: 0; margin-bottom: 0.75rem;
+}
+
+/* ================================================================
+   22. ROLE BADGE
+   ================================================================ */
+.role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.role-badge-resident { background: rgba(74,31,70,0.12); color: var(--biringan-primary); }
+.role-badge-staff    { background: rgba(216,176,106,0.22); color: #7a5010; }
+.role-badge-admin    { background: rgba(216,92,134,0.15); color: #8a1040; }
+
+/* ================================================================
+   23. INTERACTIVE ELEMENT TRANSITIONS
+   ================================================================ */
+.btn,
+.nav-link,
+.sidebar-nav .nav-link,
+.doc-type-card {
+    transition: background-color 0.15s ease, color 0.15s ease,
+                border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* ================================================================
+   24. ACCOUNT STATUS BADGE
+   ================================================================ */
+.account-badge-active   { background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+.account-badge-inactive { background: #fee2e2; color: var(--emu-danger); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+
+/* ================================================================
+   25. MODAL FOCUS RING
+   ================================================================ */
+.modal:focus { outline: none; }
+.modal .btn:focus-visible { box-shadow: 0 0 0 3px rgba(216,92,134,0.35) !important; }
+
+/* ================================================================
+   26. MINIMAL LAYOUT LOGO AREA (legacy classes)
+   ================================================================ */
+.minimal-logo { text-align: center; margin-bottom: 1.5rem; }
+.minimal-logo .logo-icon { font-size: 2.5rem; color: var(--biringan-primary); display: block; margin-bottom: 0.5rem; }
+.minimal-logo .logo-name { font-size: 1.25rem; font-weight: 700; color: var(--biringan-primary); font-family: 'Montserrat', 'Inter', sans-serif; }
+.minimal-logo .logo-tagline { font-size: 0.875rem; color: var(--emu-text-muted); margin-top: 0.25rem; }
+
+/* ================================================================
+   27. DARK SIDEBAR � consolidated (replaces old section 27)
+   ================================================================ */
+/* Already defined in section 7 above; this section kept for structural parity */
+
+/* ================================================================
+   28. ENHANCED METRIC CARDS � already in section 13
+   ================================================================ */
+
+/* ================================================================
+   29. LOGIN / REGISTER SPLIT LAYOUT � Biringan Dark
+   ================================================================ */
+.minimal-split {
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+}
+/* Left panel � Biringan brand panel */
+.minimal-split-left {
+    flex: 0 0 42%;
+    background: linear-gradient(155deg, var(--biringan-deep) 0%, var(--biringan-purple) 55%, var(--biringan-primary) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+}
+/* Subtle geometric watermark */
+.minimal-split-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D8B06A' fill-opacity='0.05'%3E%3Cpolygon points='32 0 64 18.5 64 45.5 32 64 0 45.5 0 18.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+/* Gold ring glow bottom right */
+.minimal-split-left::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(216,176,106,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.minimal-split-left .brand-seal {
+    width: 96px; height: 96px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+    /* Gold ring around logo */
+    border-radius: 50%;
+    background: rgba(216,176,106,0.12);
+    border: 1px solid rgba(216,176,106,0.30);
+    padding: 8px;
+}
+.minimal-split-left .brand-seal img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+}
+.minimal-split-left .brand-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.625rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.2rem;
+    text-align: center;
+    position: relative; z-index: 1;
+    letter-spacing: -0.01em;
+}
+.minimal-split-left .brand-city {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--biringan-gold-light);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    position: relative; z-index: 1;
+    margin-bottom: 1rem;
+}
+.minimal-split-left p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.65);
+    text-align: center;
+    max-width: 260px;
+    position: relative; z-index: 1;
+    line-height: 1.55;
+}
+.minimal-split-left .feature-list {
+    list-style: none; padding: 0; margin: 1.75rem 0 0;
+    position: relative; z-index: 1;
+}
+.minimal-split-left .feature-list li {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 0.625rem;
+}
+.minimal-split-left .feature-list li i { color: var(--biringan-gold-light); font-size: 0.9rem; }
+/* Gold divider line */
+.minimal-split-divider {
+    width: 48px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--biringan-gold), transparent);
+    margin: 1.25rem auto;
+    position: relative; z-index: 1;
+}
+/* Right panel */
+.minimal-split-right {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2.5rem 2rem;
+    background: var(--biringan-bg);
+}
+.minimal-split-right .form-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--biringan-card);
+    border-radius: 14px;
+    box-shadow: var(--emu-shadow-3);
+    padding: 3rem 2.5rem 2.5rem 2.5rem;
+    border: 1px solid var(--biringan-border);
+}
+@media (max-width: 767.98px) {
+    .minimal-split { flex-direction: column; }
+    .minimal-split-left { flex: 0 0 auto; padding: 2rem 1.5rem; min-height: 200px; }
+    .minimal-split-left .feature-list { display: none; }
+    .minimal-split-right { padding: 1.5rem 1rem; }
+    .minimal-split-right .form-card { padding: 2.25rem 1.75rem 1.75rem 1.75rem; }
+}
+
+/* ================================================================
+   30. DASHBOARD WELCOME BANNER
+   ================================================================ */
+.welcome-banner {
+    background: linear-gradient(135deg, var(--biringan-primary) 0%, var(--biringan-purple) 50%, var(--biringan-dark) 100%);
+    border-radius: 14px;
+    padding: 1.625rem 2rem;
+    color: #fff;
+    margin-bottom: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(216,176,106,0.18);
+}
+.welcome-banner::before {
+    content: '';
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, rgba(216,176,106,0.10) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.welcome-banner::after {
+    content: '';
+    position: absolute;
+    right: 2rem; top: 50%;
+    transform: translateY(-50%);
+    width: 56px; height: 56px;
+    background: rgba(216,176,106,0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(216,176,106,0.15);
+}
+.welcome-banner h1 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+.welcome-banner p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 0;
+}
+/* Gold accent line under welcome banner heading */
+.welcome-banner .welcome-accent {
+    display: inline-block;
+    width: 32px; height: 2px;
+    background: var(--biringan-gold);
+    margin-bottom: 0.5rem;
+    border-radius: 2px;
+}
+
+/* ================================================================
+   31. CARD HEADER ACTIONS
+   ================================================================ */
+.card-header.card-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1.25rem;
+}
+
+/* ================================================================
+   32. TEXT UTILITIES
+   ================================================================ */
+.text-reference {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+}
+.text-label { font-size: 0.875rem; font-weight: 500; color: var(--emu-text-secondary); }
+.text-muted-sm { font-size: 0.75rem; color: var(--emu-text-muted); }
+.text-page-title { font-size: 1.75rem; font-weight: 700; color: var(--emu-text-primary); font-family: 'Montserrat', 'Inter', sans-serif; }
+
+/* ================================================================
+   33. PASSWORD CHECKLIST
+   ================================================================ */
+.pwc-item {
+    display: flex; align-items: center; gap: 0.375rem;
+    font-size: 0.8rem; margin-bottom: 0.25rem;
+    color: var(--emu-text-muted);
+    transition: color 0.15s ease;
+}
+.pwc-item i { font-size: 0.8rem; flex-shrink: 0; }
+.pwc-valid   { color: var(--emu-success) !important; }
+.pwc-invalid { color: var(--emu-text-muted); }
+
+/* ================================================================
+   34. LANDING PAGE � Biringan Dark Hero
+   ================================================================ */
+
+/* -- Public Navbar � dark Biringan style -- */
+.navbar-light-lp {
+    background: var(--biringan-dark);
+    border-bottom: 1px solid rgba(216,176,106,0.15);
+    box-shadow: 0 2px 16px rgba(18,11,31,0.40);
+}
+.navbar-light-lp .navbar-brand-name {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+}
+.navbar-light-lp .navbar-brand-sub {
+    font-size: 0.62rem;
+    color: var(--biringan-gold-light);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.8;
+}
+.navbar-light-lp .nav-link {
+    color: rgba(255,255,255,0.78) !important;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem !important;
+    transition: color 0.18s ease;
+    border-bottom: 2px solid transparent;
+    text-decoration: none !important;
+}
+.navbar-light-lp .nav-link:hover { color: var(--biringan-gold-light) !important; }
+.navbar-light-lp .nav-link.active {
+    color: #fff !important;
+    font-weight: 600;
+    border-bottom: 2px solid var(--biringan-gold);
+}
+.navbar-light-lp .navbar-toggler {
+    border-color: rgba(216,176,106,0.35);
+    filter: invert(1);
+}
+/* Login + Register buttons in dark navbar */
+.navbar-light-lp .btn-outline-primary {
+    color: rgba(255,255,255,0.85) !important;
+    border-color: rgba(255,255,255,0.35) !important;
+    background: transparent !important;
+}
+.navbar-light-lp .btn-outline-primary:hover {
+    color: var(--biringan-dark) !important;
+    background: #fff !important;
+    border-color: #fff !important;
+}
+.navbar-light-lp .btn-primary {
+    background: var(--biringan-rose) !important;
+    border-color: var(--biringan-rose) !important;
+    color: #fff !important;
+}
+.navbar-light-lp .btn-primary:hover {
+    background: var(--biringan-pink) !important;
+    border-color: var(--biringan-pink) !important;
+}
+
+/* Scrolled shadow */
+.navbar-light-lp.navbar-scrolled {
+    box-shadow: 0 3px 20px rgba(18,11,31,0.55) !important;
+    transition: box-shadow 0.25s ease;
+}
+
+/* -- Hero Section -- */
+.lp-hero {
+    background: linear-gradient(145deg, var(--biringan-deep) 0%, var(--biringan-dark) 40%, var(--biringan-purple) 100%);
+    padding: 6rem 0 5rem;
+    min-height: 580px;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+}
+/* Radial glow effect */
+.lp-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(216,92,134,0.12) 0%, transparent 65%);
+    pointer-events: none;
+}
+.lp-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(216,176,106,0.08) 0%, transparent 65%);
+    pointer-events: none;
+}
+.lp-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(216,176,106,0.12);
+    color: var(--biringan-gold-light);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(216,176,106,0.25);
+    letter-spacing: 0.04em;
+}
+.lp-hero-pretitle {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 0.25rem;
+}
+.lp-hero-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+}
+.lp-hero-title-accent {
+    color: var(--biringan-rose);
+    display: block;
+}
+.lp-hero-subtitle {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    font-weight: 600;
+    color: var(--biringan-gold-light);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+}
+.lp-hero-desc {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.72);
+    max-width: 480px;
+    margin-bottom: 2rem;
+    line-height: 1.65;
+}
+/* Hero CTA buttons */
+.lp-hero .btn-primary {
+    background: var(--biringan-rose) !important;
+    border-color: var(--biringan-rose) !important;
+    padding: 0.75rem 1.75rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(216,92,134,0.35);
+}
+.lp-hero .btn-primary:hover {
+    background: var(--biringan-pink) !important;
+    border-color: var(--biringan-pink) !important;
+    box-shadow: 0 6px 20px rgba(216,92,134,0.45);
+    transform: translateY(-1px);
+}
+.lp-hero .btn-outline-primary {
+    color: rgba(255,255,255,0.85) !important;
+    border-color: rgba(255,255,255,0.35) !important;
+    padding: 0.75rem 1.75rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06) !important;
+}
+.lp-hero .btn-outline-primary:hover {
+    background: rgba(255,255,255,0.12) !important;
+    border-color: rgba(255,255,255,0.60) !important;
+    color: #fff !important;
+}
+/* Hero visual panel */
+.lp-hero-visual {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(216,176,106,0.20);
+    border-radius: 20px;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(2px);
+}
+.lp-hero-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, rgba(216,92,134,0.10) 0%, transparent 65%);
+    pointer-events: none;
+}
+.lp-hero-visual i {
+    font-size: 6rem;
+    color: rgba(255,255,255,0.15);
+    position: relative; z-index: 1;
+}
+.lp-hero-visual-logo {
+    width: 110px; height: 110px;
+    position: relative; z-index: 1;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 4px 24px rgba(216,176,106,0.25));
+}
+.lp-hero-visual-city {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.20em;
+    color: var(--biringan-gold-light);
+    opacity: 0.85;
+    position: relative; z-index: 1;
+}
+/* Gold corner accent lines on hero visual */
+.lp-hero-visual-corner {
+    position: absolute;
+    width: 28px; height: 28px;
+    border-color: rgba(216,176,106,0.35);
+    border-style: solid;
+    border-width: 0;
+}
+.lp-hero-visual-corner.tl { top: 16px; left: 16px; border-top-width: 2px; border-left-width: 2px; border-radius: 3px 0 0 0; }
+.lp-hero-visual-corner.tr { top: 16px; right: 16px; border-top-width: 2px; border-right-width: 2px; border-radius: 0 3px 0 0; }
+.lp-hero-visual-corner.bl { bottom: 16px; left: 16px; border-bottom-width: 2px; border-left-width: 2px; border-radius: 0 0 0 3px; }
+.lp-hero-visual-corner.br { bottom: 16px; right: 16px; border-bottom-width: 2px; border-right-width: 2px; border-radius: 0 0 3px 0; }
+
+/* -- Feature strip below hero -- */
+.lp-features {
+    padding: 3rem 0;
+    background: var(--biringan-dark);
+    border-bottom: 1px solid rgba(216,176,106,0.12);
+}
+.lp-feature-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(216,176,106,0.14);
+    border-radius: 12px;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    transition: box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease;
+    height: 100%;
+    color: rgba(255,255,255,0.90);
+}
+.lp-feature-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(216,176,106,0.30);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(18,11,31,0.35);
+}
+.lp-fic {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 1rem;
+}
+/* New palette fic classes for dark strip */
+.lp-fic-primary { background: rgba(216,92,134,0.18);  color: var(--biringan-pink); }
+.lp-fic-blush   { background: rgba(216,176,106,0.18); color: var(--biringan-gold-light); }
+.lp-fic-rose    { background: rgba(74,31,70,0.40);    color: var(--biringan-soft-pink); }
+.lp-fic-pink    { background: rgba(43,23,61,0.60);    color: var(--biringan-pink); }
+/* Legacy fic classes preserved */
+.lp-fic-teal   { background: #d1fae5; color: #047857; }
+.lp-fic-blue   { background: #dbeafe; color: #1d4ed8; }
+.lp-fic-purple { background: rgba(74,31,70,0.30); color: var(--biringan-soft-pink); }
+.lp-fic-gold   { background: rgba(216,176,106,0.20); color: var(--biringan-gold-light); }
+.lp-fic-green  { background: #dcfce7; color: #15803d; }
+.lp-feature-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: #fff;
+}
+.lp-feature-card p { color: rgba(255,255,255,0.60); font-size: 0.8125rem; }
+
+/* -- Sections -- */
+.lp-section     { padding: 5rem 0; background: var(--biringan-bg); }
+.lp-section-alt { padding: 5rem 0; background: #fff; }
+.lp-section-label {
+    font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--biringan-rose); margin-bottom: 0.5rem;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+}
+.lp-section-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.125rem);
+    font-weight: 800;
+    color: var(--biringan-text);
+}
+.lp-section-sub {
+    font-size: 0.9375rem;
+    color: var(--biringan-muted);
+    margin-top: 0.4rem;
+}
+/* Gold accent line under section titles */
+.lp-section-accent {
+    display: inline-block;
+    width: 40px; height: 3px;
+    background: linear-gradient(90deg, var(--biringan-rose), var(--biringan-gold));
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* -- Services cards -- */
+.lp-service-card {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 12px;
+    padding: 1.375rem;
+    transition: box-shadow 0.18s, border-color 0.18s, transform 0.18s;
+    height: 100%;
+}
+.lp-service-card:hover {
+    box-shadow: var(--emu-shadow-2);
+    border-color: var(--biringan-rose);
+    transform: translateY(-2px);
+}
+
+/* -- How It Works -- */
+.hiw-steps {
+    display: flex; align-items: flex-start;
+    justify-content: center; position: relative;
+}
+.hiw-step {
+    flex: 1; text-align: center; position: relative;
+    padding: 0 0.75rem; max-width: 180px;
+}
+.hiw-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 27px;
+    left: calc(50% + 32px);
+    right: calc(-50% + 32px);
+    height: 2px;
+    border-top: 2px dashed rgba(216,92,134,0.30);
+    z-index: 0;
+}
+.hiw-icon-wrap {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin: 0 auto 0.75rem;
+    position: relative; z-index: 1;
+    border: 3px solid var(--biringan-bg);
+    box-shadow: var(--emu-shadow-2);
+}
+.hiw-num {
+    position: absolute; top: -5px; right: -5px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    font-size: 0.6rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    border: 2px solid var(--biringan-bg);
+    z-index: 2;
+}
+.hiw-step-title { font-family: 'Montserrat', 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--biringan-text); }
+.hiw-step-desc  { font-size: 0.775rem; color: var(--biringan-muted); line-height: 1.4; }
+@media (max-width: 767.98px) {
+    .hiw-steps { flex-direction: column; align-items: center; gap: 2rem; }
+    .hiw-step  { max-width: 260px; width: 100%; }
+    .hiw-step::after { display: none; }
+}
+
+/* -- Announcement bar -- */
+.lp-announcement {
+    background: linear-gradient(90deg, var(--biringan-primary) 0%, var(--biringan-purple) 100%);
+    padding: 0.875rem 0;
+    border-top: 1px solid rgba(216,176,106,0.15);
+    border-bottom: 1px solid rgba(216,176,106,0.15);
+}
+.lp-announcement .container { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.lp-announcement-text { font-size: 0.875rem; color: rgba(255,255,255,0.88); flex: 1; min-width: 0; }
+.lp-announcement-link {
+    font-size: 0.8125rem; font-weight: 600;
+    color: var(--biringan-gold-light); text-decoration: none;
+    white-space: nowrap; flex-shrink: 0;
+}
+.lp-announcement-link:hover { color: #fff; text-decoration: underline; }
+
+/* -- Contact form -- */
+.lp-contact-card { background: var(--biringan-card); border: 1px solid var(--biringan-border); border-radius: 12px; padding: 1.75rem 1.25rem; text-align: center; transition: box-shadow 0.15s; height: 100%; }
+.lp-contact-card:hover { box-shadow: var(--emu-shadow-2); }
+.lp-contact-icon { width: 52px; height: 52px; border-radius: 50%; background: rgba(74,31,70,0.10); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: var(--biringan-primary); margin: 0 auto 0.75rem; }
+.contact-form-card {
+    background: var(--biringan-card);
+    border-radius: 16px;
+    box-shadow: var(--emu-shadow-2);
+    padding: 2rem 2.25rem;
+    border: 1px solid var(--biringan-border);
+}
+.contact-form-card .form-control:focus { border-color: var(--biringan-rose); box-shadow: 0 0 0 3px rgba(216,92,134,0.18); }
+#contactSuccessMsg {
+    display: none; background: #d1fae5; border: 1px solid #6ee7b7;
+    border-radius: 8px; color: #065f46;
+    padding: 0.875rem 1.25rem; font-size: 0.9rem; margin-bottom: 1rem;
+}
+#contactErrorMsg {
+    display: none; background: #fee2e2; border: 1px solid #fca5a5;
+    border-radius: 8px; color: #991b1b;
+    padding: 0.875rem 1.25rem; font-size: 0.9rem; margin-bottom: 1rem;
+}
+
+/* -- FAQ -- */
+.faq-hover-list { list-style: none; padding: 0; margin: 0; }
+.faq-hover-item {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 10px;
+    margin-bottom: 0.625rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    cursor: default;
+}
+.faq-hover-item:hover, .faq-hover-item:focus-within {
+    box-shadow: var(--emu-shadow-2);
+    border-color: var(--biringan-rose);
+}
+.faq-hover-question {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.25rem;
+    font-size: 0.9375rem; font-weight: 600;
+    color: var(--biringan-text); user-select: none;
+}
+.faq-hover-question::after {
+    content: '\002B'; font-size: 1.25rem; font-weight: 400;
+    color: var(--biringan-rose);
+    transition: transform 0.2s ease; flex-shrink: 0; margin-left: 0.75rem;
+}
+.faq-hover-item:hover .faq-hover-question::after,
+.faq-hover-item:focus-within .faq-hover-question::after,
+.faq-hover-item.faq-open .faq-hover-question::after { transform: rotate(45deg); }
+.faq-hover-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.2s ease;
+    padding: 0 1.25rem;
+    font-size: 0.9rem; color: var(--emu-text-secondary); line-height: 1.65;
+}
+.faq-hover-item:hover .faq-hover-answer,
+.faq-hover-item:focus-within .faq-hover-answer,
+.faq-hover-item.faq-open .faq-hover-answer { max-height: 400px; padding-bottom: 1rem; }
+
+/* ================================================================
+   35. PUBLIC LAYOUT SCROLL OFFSETS & GAP FIX
+   ================================================================ */
+body.lp-body #main-content { margin-top: 0; padding-top: 0; transform: none; }
+#main-content > section:first-child,
+#main-content > .lp-hero:first-child { margin-top: 0 !important; }
+.lp-hero { margin-top: 0 !important; }
+html { scroll-padding-top: 64px; }
+#home { scroll-margin-top: 0; }
+#about, #services, #how-it-works, #faqs, #contact { scroll-margin-top: 64px; }
+
+/* ================================================================
+   36. PAGE TRANSITIONS � Authenticated
+   ================================================================ */
+body.auth-body .auth-content {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+body.auth-body.role-resident .auth-content {
+    transform: translateY(30px);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+body.auth-body.role-staff .auth-content {
+    transform: translateY(20px);
+    transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.33,1,0.68,1);
+}
+body.auth-body.role-admin .auth-content {
+    transform: translateY(15px);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2,0.8,0.2,1);
+}
+body.auth-body.page-entered .auth-content { opacity: 1; }
+body.auth-body.role-resident.page-entered .auth-content { transform: translateY(0); }
+body.auth-body.role-staff.page-entered .auth-content    { transform: translateY(0); }
+body.auth-body.role-admin.page-entered .auth-content    { transform: translateY(0); }
+body.auth-body.page-leaving-start .auth-content { transition: none; }
+body.auth-body.page-leaving       .auth-content { transition: none; }
+body.auth-body.page-entering      .auth-content { transition: none; opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+    body.auth-body .auth-content,
+    body.auth-body.page-entering .auth-content,
+    body.auth-body.page-entered  .auth-content { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ================================================================
+   37. PAGE TRANSITIONS � Landing Page
+   ================================================================ */
+#main-content.lp-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
+}
+#main-content.lp-content.lp-entered { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+    #main-content.lp-content,
+    #main-content.lp-content.lp-entered { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+body.lp-body.lp-entering { transition: none; }
+body.lp-body.lp-entered  { transition: none; }
+
+/* ================================================================
+   38. LOGO PLACEHOLDER � centralised sizing helpers
+   ================================================================ */
+/* All uses of the logo reference /public/assets/images/biringan-logo-placeholder.svg
+   These helpers ensure consistent sizing across contexts without duplication. */
+.biringan-logo-sm  { width: 32px;  height: 32px;  object-fit: contain; }
+.biringan-logo-md  { width: 44px;  height: 44px;  object-fit: contain; }
+.biringan-logo-lg  { width: 64px;  height: 64px;  object-fit: contain; }
+.biringan-logo-xl  { width: 100px; height: 100px; object-fit: contain; }
+
+/* ================================================================
+   39. GOLD ACCENT UTILITIES
+   ================================================================ */
+.gold-divider {
+    width: 40px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--biringan-gold), transparent);
+    margin: 0.75rem auto;
+    border-radius: 2px;
+}
+.gold-line-top { border-top: 1px solid rgba(216,176,106,0.20); }
+
+/* ================================================================
+   40. RESPONSIVE REFINEMENTS
+   ================================================================ */
+@media (max-width: 575.98px) {
+    .auth-content { padding: 1rem 0.75rem !important; }
+    .welcome-banner { padding: 1.25rem 1.25rem; }
+    .welcome-banner h1 { font-size: 1.125rem; }
+    .lp-hero { padding: 4rem 0 3rem; min-height: auto; }
+    .lp-hero-title { font-size: 2.25rem; }
+    .metric-card { padding: 1rem 1rem 0.875rem !important; }
+    .minimal-split-right .form-card { padding: 2rem 1.5rem 1.5rem 1.5rem; }
+    .contact-form-card { padding: 1.5rem; }
+}
+@media (max-width: 767.98px) {
+    .lp-features { padding: 2rem 0; }
+    .lp-section, .lp-section-alt { padding: 3.5rem 0; }
+    .lp-hero-desc { font-size: 0.9375rem; }
+    .hiw-steps { flex-direction: column; align-items: center; gap: 2rem; }
+    .hiw-step  { max-width: 280px; width: 100%; }
+    .hiw-step::after { display: none; }
+}
+
+/* ================================================================
+   41. ACCESSIBILITY � focus enhancements
+   ================================================================ */
+a:focus-visible {
+    outline: 2px solid var(--biringan-rose);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+.btn:focus-visible {
+    outline: 2px solid var(--biringan-rose);
+    outline-offset: 2px;
+}
+/* Skip link */
+.visually-hidden-focusable:focus {
+    background: var(--biringan-primary) !important;
+    color: #fff !important;
+}
+
+/* ================================================================
+   PHASE B2 � CONTENT AREA REDESIGN
+   ================================================================ */
+
+/* -- B2.1 Page Header Component ---------------------------------- */
+.b2-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+}
+.b2-page-header-left { min-width: 0; }
+.b2-page-header h1 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin: 0 0 0.2rem;
+    line-height: 1.25;
+}
+.b2-page-header .b2-page-sub {
+    font-size: 0.875rem;
+    color: var(--biringan-muted);
+    margin: 0;
+}
+.b2-page-header-accent {
+    display: block;
+    width: 32px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--biringan-rose), var(--biringan-gold));
+    border-radius: 2px;
+    margin-bottom: 0.5rem;
+}
+
+/* -- B2.2 Section Divider ----------------------------------------- */
+.b2-section-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+.b2-section-divider h2 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--biringan-primary);
+    margin: 0;
+    white-space: nowrap;
+}
+.b2-section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--biringan-border);
+}
+
+/* -- B2.3 Enhanced Metric Cards ----------------------------------- */
+.b2-metric {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 14px;
+    padding: 1.25rem 1.375rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: var(--emu-shadow-1);
+}
+.b2-metric:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--emu-shadow-2);
+}
+.b2-metric-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+.b2-metric-icon.ic-total    { background: rgba(74,31,70,0.10);  color: var(--biringan-primary); }
+.b2-metric-icon.ic-pending  { background: rgba(216,176,106,0.18); color: #8a6020; }
+.b2-metric-icon.ic-progress { background: rgba(29,111,164,0.12); color: var(--emu-info); }
+.b2-metric-icon.ic-done     { background: rgba(26,122,74,0.12);  color: var(--emu-success); }
+.b2-metric-icon.ic-cancel   { background: rgba(185,28,28,0.10);  color: var(--emu-danger); }
+.b2-metric-icon.ic-rose     { background: rgba(216,92,134,0.14); color: var(--biringan-rose); }
+.b2-metric-icon.ic-gold     { background: rgba(216,176,106,0.18); color: #8a6020; }
+.b2-metric-icon.ic-info     { background: rgba(29,111,164,0.12); color: var(--emu-info); }
+.b2-metric-body { flex: 1; min-width: 0; }
+.b2-metric-value {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: var(--biringan-text);
+    line-height: 1;
+    margin-bottom: 0.2rem;
+}
+.b2-metric-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--biringan-muted);
+}
+.b2-metric-sub {
+    font-size: 0.72rem;
+    color: var(--biringan-muted);
+    margin-top: 0.25rem;
+}
+
+/* -- B2.4 Card Enhancement --------------------------------------- */
+.b2-card {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 14px;
+    box-shadow: var(--emu-shadow-1);
+    overflow: hidden;
+}
+.b2-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--biringan-border);
+    background: var(--emu-bg-alt);
+}
+.b2-card-header h2,
+.b2-card-header h3 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin: 0;
+}
+.b2-card-header-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: rgba(74,31,70,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--biringan-primary);
+    flex-shrink: 0;
+}
+
+/* -- B2.5 Welcome Banner Variants ------------------------------- */
+.b2-welcome {
+    background: linear-gradient(135deg, var(--biringan-primary) 0%, var(--biringan-purple) 50%, var(--biringan-dark) 100%);
+    border-radius: 16px;
+    padding: 1.625rem 2rem;
+    color: #fff;
+    margin-bottom: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(216,176,106,0.15);
+}
+.b2-welcome::before {
+    content: '';
+    position: absolute; right: -30px; top: -30px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(216,176,106,0.10) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.b2-welcome-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.2rem;
+}
+.b2-welcome-sub {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.70);
+    margin: 0;
+}
+.b2-welcome-accent {
+    display: inline-block;
+    width: 28px; height: 2px;
+    background: var(--biringan-gold);
+    border-radius: 2px;
+    margin-bottom: 0.5rem;
+}
+
+/* -- B2.6 Table Refinements --------------------------------------- */
+.b2-table thead th {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--biringan-muted);
+    background: var(--emu-bg-alt);
+    border-bottom: 2px solid var(--biringan-border);
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+}
+.b2-table tbody td {
+    padding: 0.875rem 1rem;
+    vertical-align: middle;
+    font-size: 0.875rem;
+    border-bottom: 1px solid rgba(232,224,232,0.5);
+}
+.b2-table tbody tr:last-child td { border-bottom: none; }
+.b2-table tbody tr:hover { background: rgba(74,31,70,0.03); }
+.b2-table .ref-cell {
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--biringan-primary);
+    letter-spacing: 0.02em;
+}
+
+/* -- B2.7 Notification Cards ----------------------------------- */
+.b2-notif-item {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--biringan-border);
+    transition: background 0.15s ease;
+}
+.b2-notif-item:first-child { border-top: none; }
+.b2-notif-item.unread {
+    background: rgba(74,31,70,0.04);
+    border-left: 3px solid var(--biringan-rose);
+    padding-left: calc(1.25rem - 3px);
+}
+.b2-notif-item.read { border-left: 3px solid transparent; }
+.b2-notif-item:hover { background: rgba(74,31,70,0.06); }
+.b2-notif-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+.b2-notif-icon.ni-info      { background: rgba(29,111,164,0.12); color: var(--emu-info); }
+.b2-notif-icon.ni-success   { background: rgba(26,122,74,0.12);  color: var(--emu-success); }
+.b2-notif-icon.ni-warning   { background: rgba(216,176,106,0.20); color: #8a6020; }
+.b2-notif-icon.ni-danger    { background: rgba(185,28,28,0.10);  color: var(--emu-danger); }
+.b2-notif-icon.ni-primary   { background: rgba(74,31,70,0.12);   color: var(--biringan-primary); }
+.b2-notif-icon.ni-secondary { background: rgba(117,108,120,0.12); color: var(--biringan-muted); }
+.b2-notif-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--biringan-text);
+    margin-bottom: 0.15rem;
+}
+.b2-notif-msg {
+    font-size: 0.8125rem;
+    color: var(--biringan-muted);
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+.b2-notif-meta {
+    font-size: 0.75rem;
+    color: var(--biringan-muted);
+}
+.b2-unread-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--biringan-rose);
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+/* -- B2.8 Profile Page ------------------------------------------ */
+.b2-profile-header {
+    background: linear-gradient(135deg, var(--biringan-primary), var(--biringan-purple));
+    border-radius: 14px;
+    padding: 1.75rem 2rem;
+    color: #fff;
+    margin-bottom: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(216,176,106,0.15);
+}
+.b2-profile-header::after {
+    content: '';
+    position: absolute; right: -20px; top: -20px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(216,176,106,0.10) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.b2-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    border: 2px solid rgba(216,176,106,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--biringan-gold-light);
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+}
+.b2-profile-name {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.2rem;
+}
+.b2-profile-email {
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.70);
+    margin: 0;
+}
+
+/* -- B2.9 Status Timeline Refinement ---------------------------- */
+.b2-timeline {
+    position: relative;
+    padding-left: 2.25rem;
+}
+.b2-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.65rem; top: 0.5rem; bottom: 0.5rem;
+    width: 2px;
+    background: linear-gradient(180deg, var(--biringan-primary), var(--biringan-border));
+    border-radius: 1px;
+}
+.b2-timeline-item {
+    position: relative;
+    margin-bottom: 1.25rem;
+    padding: 0.875rem 1rem;
+    background: var(--emu-bg-alt);
+    border-radius: 10px;
+    border: 1px solid var(--biringan-border);
+}
+.b2-timeline-item.current {
+    background: rgba(74,31,70,0.05);
+    border-color: var(--biringan-primary);
+}
+.b2-timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.625rem; top: 1rem;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--biringan-muted);
+    border: 2px solid var(--biringan-bg);
+    box-shadow: 0 0 0 2px var(--biringan-muted);
+}
+.b2-timeline-item.tl-completed::before  { background: var(--emu-success); box-shadow: 0 0 0 2px var(--emu-success); }
+.b2-timeline-item.tl-current::before    { background: var(--biringan-rose); box-shadow: 0 0 0 2px var(--biringan-rose); }
+.b2-timeline-item.tl-rejected::before   { background: var(--emu-danger); box-shadow: 0 0 0 2px var(--emu-danger); }
+.b2-timeline-item.tl-cancelled::before  { background: #6b7280; box-shadow: 0 0 0 2px #6b7280; }
+.b2-timeline-status {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    margin-bottom: 0.1rem;
+    color: var(--biringan-text);
+}
+.b2-timeline-date {
+    font-size: 0.75rem;
+    color: var(--biringan-muted);
+}
+.b2-timeline-note {
+    font-size: 0.8rem;
+    color: var(--biringan-muted);
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+/* -- B2.10 Document Request Steps -------------------------------- */
+.b2-steps {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+.b2-step {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+    position: relative;
+}
+.b2-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: calc(50% + 22px);
+    right: calc(-50% + 22px);
+    height: 2px;
+    background: var(--biringan-border);
+}
+.b2-step-circle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 0.5rem;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border: 2px solid var(--biringan-border);
+    background: var(--biringan-card);
+    color: var(--biringan-muted);
+    position: relative; z-index: 1;
+    transition: all 0.2s ease;
+}
+.b2-step.active .b2-step-circle {
+    background: var(--biringan-primary);
+    border-color: var(--biringan-primary);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(74,31,70,0.15);
+}
+.b2-step.done .b2-step-circle {
+    background: var(--emu-success);
+    border-color: var(--emu-success);
+    color: #fff;
+}
+.b2-step-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--biringan-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+}
+.b2-step.active .b2-step-label { color: var(--biringan-primary); }
+.b2-step.done .b2-step-label   { color: var(--emu-success); }
+.b2-step:not(:last-child).done::after { background: var(--emu-success); }
+.b2-step:not(:last-child).active::after { background: var(--biringan-primary); }
+
+/* -- B2.11 Document Selection Cards ---------------------------- */
+.b2-doc-card {
+    cursor: pointer;
+    border: 2px solid var(--biringan-border);
+    border-radius: 12px;
+    padding: 1rem 1.125rem;
+    transition: all 0.18s ease;
+    background: var(--biringan-card);
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+.b2-doc-card:hover {
+    border-color: var(--biringan-rose);
+    background: rgba(216,92,134,0.03);
+    box-shadow: var(--emu-shadow-2);
+    transform: translateY(-1px);
+}
+.b2-doc-card.selected {
+    border-color: var(--biringan-primary);
+    background: rgba(74,31,70,0.05);
+    box-shadow: 0 0 0 3px rgba(74,31,70,0.12);
+}
+.b2-doc-card:focus-within { outline: 2px solid var(--biringan-rose); outline-offset: 2px; }
+.b2-doc-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: rgba(74,31,70,0.10);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.125rem;
+    color: var(--biringan-primary);
+    flex-shrink: 0;
+}
+.b2-doc-card.selected .b2-doc-icon {
+    background: var(--biringan-primary);
+    color: #fff;
+}
+.b2-doc-name {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin-bottom: 0.15rem;
+    line-height: 1.3;
+}
+.b2-doc-dept {
+    font-size: 0.72rem;
+    color: var(--biringan-rose);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* -- B2.12 Requirement Items -------------------------------------- */
+.b2-req-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.625rem 0;
+    border-bottom: 1px solid var(--biringan-border);
+    font-size: 0.875rem;
+}
+.b2-req-item:last-child { border-bottom: none; }
+.b2-req-icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: rgba(74,31,70,0.10);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    color: var(--biringan-primary);
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.b2-req-required .b2-req-icon {
+    background: rgba(216,92,134,0.15);
+    color: var(--biringan-rose);
+}
+
+/* -- B2.13 Status/Action Panel --------------------------------- */
+.b2-action-panel {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--emu-shadow-1);
+    position: sticky;
+    top: 1.5rem;
+}
+.b2-action-panel-header {
+    padding: 0.875rem 1.25rem;
+    background: linear-gradient(135deg, var(--biringan-primary), var(--biringan-purple));
+    color: #fff;
+}
+.b2-action-panel-header h3 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+.b2-current-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    margin-top: 0.5rem;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* -- B2.14 Info/Detail Row ------------------------------------- */
+.b2-detail-row {
+    display: flex;
+    padding: 0.625rem 0;
+    border-bottom: 1px solid rgba(232,224,232,0.5);
+    gap: 1rem;
+    font-size: 0.875rem;
+    align-items: flex-start;
+}
+.b2-detail-row:last-child { border-bottom: none; }
+.b2-detail-label {
+    width: 140px;
+    min-width: 140px;
+    font-weight: 600;
+    color: var(--biringan-muted);
+    font-size: 0.8125rem;
+    flex-shrink: 0;
+}
+.b2-detail-value { color: var(--biringan-text); flex: 1; }
+
+/* -- B2.15 Filter Bar ------------------------------------------ */
+.b2-filter-bar {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--emu-shadow-1);
+}
+
+/* -- B2.16 Public Page Sections ------------------------------- */
+.b2-pub-hero {
+    background: linear-gradient(135deg, var(--biringan-primary) 0%, var(--biringan-purple) 60%, var(--biringan-dark) 100%);
+    padding: 3.5rem 0 3rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.b2-pub-hero h1 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(1.625rem, 4vw, 2.375rem);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+.b2-pub-hero p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    max-width: 560px;
+    margin: 0;
+}
+.b2-pub-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(216,176,106,0.15);
+    border: 1px solid rgba(216,176,106,0.28);
+    color: var(--biringan-gold-light);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.875rem;
+}
+
+/* About feature cards */
+.b2-feature-card {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 14px;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    height: 100%;
+    transition: box-shadow 0.18s ease, transform 0.18s ease;
+    box-shadow: var(--emu-shadow-1);
+}
+.b2-feature-card:hover {
+    box-shadow: var(--emu-shadow-2);
+    transform: translateY(-2px);
+}
+.b2-feature-card-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin: 0 auto 1rem;
+}
+.b2-feature-card-icon.ic-purple { background: rgba(74,31,70,0.12);  color: var(--biringan-primary); }
+.b2-feature-card-icon.ic-rose   { background: rgba(216,92,134,0.14); color: var(--biringan-rose); }
+.b2-feature-card-icon.ic-gold   { background: rgba(216,176,106,0.20); color: #8a6020; }
+.b2-feature-card-icon.ic-teal   { background: rgba(26,122,74,0.12);  color: var(--emu-success); }
+.b2-feature-card h3 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin-bottom: 0.4rem;
+}
+.b2-feature-card p {
+    font-size: 0.8125rem;
+    color: var(--biringan-muted);
+    margin: 0;
+    line-height: 1.55;
+}
+
+/* Services catalog card */
+.b2-service-catalog-card {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    height: 100%;
+    transition: box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    box-shadow: var(--emu-shadow-1);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.b2-service-catalog-card:hover {
+    box-shadow: var(--emu-shadow-2);
+    border-color: var(--biringan-rose);
+    transform: translateY(-2px);
+}
+.b2-service-catalog-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: rgba(74,31,70,0.10);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem;
+    color: var(--biringan-primary);
+    flex-shrink: 0;
+}
+.b2-service-catalog-name {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+}
+.b2-service-catalog-dept {
+    font-size: 0.7rem;
+    color: var(--biringan-rose);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35rem;
+}
+.b2-service-catalog-desc {
+    font-size: 0.8rem;
+    color: var(--biringan-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* How it works step card */
+.b2-hiw-step-card {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 14px;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    height: 100%;
+    box-shadow: var(--emu-shadow-1);
+    position: relative;
+}
+.b2-hiw-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--biringan-primary), var(--biringan-purple));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 auto 0.875rem;
+    box-shadow: 0 4px 12px rgba(74,31,70,0.30);
+}
+.b2-hiw-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: rgba(74,31,70,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.375rem;
+    color: var(--biringan-primary);
+    margin: 0 auto 0.875rem;
+}
+.b2-hiw-step-card h3 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin-bottom: 0.35rem;
+}
+.b2-hiw-step-card p {
+    font-size: 0.8rem;
+    color: var(--biringan-muted);
+    margin: 0;
+    line-height: 1.55;
+}
+
+/* FAQ Accordion (public pages) */
+.b2-faq-item {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 12px;
+    margin-bottom: 0.625rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.b2-faq-item:hover,
+.b2-faq-item:focus-within,
+.b2-faq-item.faq-open {
+    box-shadow: var(--emu-shadow-2);
+    border-color: var(--biringan-rose);
+}
+.b2-faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--biringan-text);
+    cursor: default;
+    user-select: none;
+}
+.b2-faq-question::after {
+    content: '\002B';
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--biringan-rose);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+}
+.b2-faq-item:hover .b2-faq-question::after,
+.b2-faq-item:focus-within .b2-faq-question::after,
+.b2-faq-item.faq-open .b2-faq-question::after { transform: rotate(45deg); }
+.b2-faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.2s ease;
+    padding: 0 1.25rem;
+    font-size: 0.9rem;
+    color: var(--emu-text-secondary);
+    line-height: 1.65;
+}
+.b2-faq-item:hover .b2-faq-answer,
+.b2-faq-item:focus-within .b2-faq-answer,
+.b2-faq-item.faq-open .b2-faq-answer {
+    max-height: 400px;
+    padding-bottom: 1rem;
+}
+
+/* Contact info card */
+.b2-contact-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.125rem 1.25rem;
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 12px;
+    box-shadow: var(--emu-shadow-1);
+    margin-bottom: 0.875rem;
+    transition: box-shadow 0.15s ease;
+}
+.b2-contact-info-card:hover { box-shadow: var(--emu-shadow-2); }
+.b2-contact-info-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--biringan-primary), var(--biringan-purple));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.125rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+.b2-contact-info-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--biringan-rose);
+    margin-bottom: 0.2rem;
+}
+.b2-contact-info-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--biringan-text);
+    margin: 0;
+}
+.b2-contact-info-value a {
+    color: var(--biringan-text);
+    text-decoration: none;
+}
+.b2-contact-info-value a:hover { color: var(--biringan-rose); }
+
+/* -- B2.17 Staff / Admin Tabs ---------------------------------- */
+.b2-status-tabs {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+}
+.b2-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid var(--biringan-border);
+    background: var(--biringan-card);
+    color: var(--biringan-muted);
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+.b2-tab:hover {
+    border-color: var(--biringan-rose);
+    color: var(--biringan-primary);
+    background: rgba(216,92,134,0.05);
+}
+.b2-tab.active {
+    background: var(--biringan-primary);
+    border-color: var(--biringan-primary);
+    color: #fff;
+}
+.b2-tab .tab-count {
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+    padding: 0 6px;
+    font-size: 0.7rem;
+    min-width: 18px;
+    text-align: center;
+}
+.b2-tab:not(.active) .tab-count {
+    background: rgba(74,31,70,0.10);
+    color: var(--biringan-primary);
+}
+
+/* -- B2.18 Admin Quick-Link Cards ------------------------------ */
+.b2-quick-card {
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-align: center;
+    height: 100%;
+    transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+    box-shadow: var(--emu-shadow-1);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.b2-quick-card:hover {
+    box-shadow: var(--emu-shadow-2);
+    transform: translateY(-2px);
+    border-color: var(--biringan-rose);
+    text-decoration: none;
+}
+.b2-quick-card-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.375rem;
+    margin-bottom: 0.25rem;
+}
+.b2-quick-card h3 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin: 0;
+}
+.b2-quick-card p {
+    font-size: 0.78rem;
+    color: var(--biringan-muted);
+    margin: 0;
+}
+
+/* -- B2.19 Reports Progress Bar -------------------------------- */
+.b2-progress-bar-wrap {
+    background: var(--biringan-border);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+    margin-top: 0.3rem;
+}
+.b2-progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--biringan-primary), var(--biringan-rose));
+    transition: width 0.4s ease;
+}
+
+/* -- B2.20 Empty State Refinement ---------------------------- */
+.b2-empty {
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+}
+.b2-empty-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(74,31,70,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    color: var(--biringan-primary);
+    margin: 0 auto 1.25rem;
+    opacity: 0.7;
+}
+.b2-empty h5 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin-bottom: 0.4rem;
+}
+.b2-empty p {
+    font-size: 0.875rem;
+    color: var(--biringan-muted);
+    margin-bottom: 1.25rem;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* -- B2.21 Responsive Adjustments ----------------------------- */
+@media (max-width: 767.98px) {
+    .b2-detail-label { width: 110px; min-width: 110px; }
+    .b2-steps { gap: 0; }
+    .b2-step-label { font-size: 0.62rem; }
+    .b2-pub-hero { padding: 2.5rem 0 2rem; }
+    .b2-pub-hero h1 { font-size: 1.625rem; }
+    .b2-welcome, .b2-profile-header { padding: 1.25rem 1.25rem; }
+}
+@media (max-width: 575.98px) {
+    .b2-metric { padding: 1rem; }
+    .b2-metric-value { font-size: 1.5rem; }
+    .b2-tab { padding: 0.35rem 0.625rem; font-size: 0.75rem; }
+}
+
+/* ================================================================
+   B2 DASHBOARD PROFESSIONAL UI/UX REDESIGN
+   Phase B2 � Enhanced Dashboard Components
+   ================================================================ */
+
+/* -- Dashboard Hero Header -------------------------------------- */
+.b2-dashboard-hero {
+    background: linear-gradient(135deg, var(--biringan-primary) 0%, var(--biringan-purple) 100%);
+    border-radius: 14px;
+    padding: 2rem 2.25rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--emu-shadow-2);
+}
+.b2-dashboard-hero::before {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(216,176,106,0.15) 0%, transparent 70%);
+    pointer-events: none;
+}
+.b2-dashboard-hero-admin {
+    background: linear-gradient(135deg, var(--biringan-dark) 0%, var(--biringan-purple) 50%, var(--biringan-primary) 100%);
+}
+.b2-hero-content {
+    position: relative;
+    z-index: 1;
+}
+.b2-hero-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 0.375rem;
+    line-height: 1.2;
+}
+.b2-hero-subtitle {
+    font-size: clamp(0.875rem, 2vw, 0.9375rem);
+    color: rgba(255,255,255,0.78);
+    margin: 0;
+    font-weight: 400;
+}
+.b2-btn-cta {
+    font-weight: 600;
+    padding: 0.625rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(74,31,70,0.25);
+    transition: all 0.2s ease;
+}
+.b2-btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(74,31,70,0.35);
+}
+
+/* -- Enhanced Metric Cards (already exists, ensure featured variant) -- */
+.b2-metric {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.375rem;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.b2-metric-featured {
+    box-shadow: var(--emu-shadow-2);
+}
+.b2-metric-icon i {
+    font-size: 1.4rem;
+}
+
+/* -- Alert Pills ---------------------------------------------- */
+.b2-alert-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+.b2-alert-warning {
+    background: rgba(216,176,106,0.15);
+    color: #8a6020;
+    border: 1px solid rgba(216,176,106,0.25);
+}
+.b2-alert-danger {
+    background: rgba(185,28,28,0.10);
+    color: #991b1b;
+    border: 1px solid rgba(185,28,28,0.20);
+}
+
+/* -- Table Enhancements --------------------------------------- */
+.b2-table {
+    font-size: 0.875rem;
+}
+.b2-table thead th {
+    font-size: 0.75rem;
+    padding: 0.875rem 1rem;
+}
+.b2-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+.b2-table-row-clickable {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+.b2-table-row-clickable:hover {
+    background-color: rgba(74,31,70,0.04);
+}
+.b2-ref-link {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    color: var(--biringan-primary);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+.b2-ref-link:hover {
+    color: var(--biringan-rose);
+    text-decoration: underline;
+}
+.b2-doc-type-cell {
+    font-weight: 500;
+    color: var(--biringan-text);
+}
+.text-muted-sm {
+    font-size: 0.8125rem;
+    color: var(--biringan-muted);
+}
+
+/* -- Empty States --------------------------------------------- */
+.b2-empty {
+    padding: 3rem 2rem;
+    text-align: center;
+}
+.b2-empty-icon {
+    font-size: 3.5rem;
+    color: var(--biringan-muted);
+    opacity: 0.4;
+    margin-bottom: 1.25rem;
+}
+.b2-empty-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--biringan-text);
+    margin-bottom: 0.5rem;
+}
+.b2-empty-text {
+    font-size: 0.9375rem;
+    color: var(--biringan-muted);
+    max-width: 480px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+}
+
+/* -- Mobile Request Cards ------------------------------------- */
+.b2-mobile-request-card {
+    display: block;
+    padding: 1.25rem;
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.b2-mobile-request-card:hover {
+    border-color: var(--biringan-primary);
+    box-shadow: var(--emu-shadow-2);
+    transform: translateY(-1px);
+}
+.b2-ref-mobile {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--biringan-primary);
+}
+.b2-mobile-doc-type {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--biringan-text);
+}
+.b2-mobile-date {
+    font-size: 0.8125rem;
+    color: var(--biringan-muted);
+    display: flex;
+    align-items: center;
+}
+
+/* -- Info Cards (How It Works) -------------------------------- */
+.b2-info-card {
+    background: linear-gradient(135deg, rgba(74,31,70,0.05) 0%, rgba(216,176,106,0.08) 100%);
+    border: 1px solid var(--biringan-border);
+    border-radius: 12px;
+    padding: 1.75rem 1.5rem;
+}
+.b2-info-card-header {
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--biringan-primary);
+    margin-bottom: 1.25rem;
+}
+.b2-info-card-compact {
+    padding: 1.25rem 1.5rem;
+}
+.b2-info-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+}
+.b2-info-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+}
+.b2-info-step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--biringan-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+}
+.b2-info-step-content {
+    flex: 1;
+}
+.b2-info-step-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--biringan-text);
+    margin-bottom: 0.25rem;
+}
+.b2-info-step-text {
+    font-size: 0.8125rem;
+    color: var(--biringan-muted);
+    line-height: 1.5;
+}
+
+/* -- Status Group Title --------------------------------------- */
+.b2-status-group-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--biringan-text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--biringan-border);
+}
+
+/* -- Status Metric Cards (clickable) -------------------------- */
+.b2-status-metric-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.125rem 1.25rem;
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+}
+.b2-status-metric-card:hover {
+    border-color: var(--biringan-primary);
+    box-shadow: var(--emu-shadow-2);
+    transform: translateX(4px);
+}
+.b2-status-metric-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+.b2-status-metric-body {
+    flex: 1;
+    min-width: 0;
+}
+.b2-status-metric-value {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--biringan-text);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+.b2-status-metric-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--biringan-muted);
+}
+.b2-status-metric-arrow {
+    font-size: 1.125rem;
+    color: var(--biringan-muted);
+    opacity: 0.5;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.b2-status-metric-card:hover .b2-status-metric-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+    color: var(--biringan-primary);
+}
+
+/* -- Action Cards --------------------------------------------- */
+.b2-action-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.75rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--biringan-border);
+    transition: all 0.2s ease;
+}
+.b2-action-card-primary {
+    background: linear-gradient(135deg, var(--biringan-primary) 0%, var(--biringan-purple) 100%);
+    border-color: transparent;
+}
+.b2-action-card-secondary {
+    background: linear-gradient(135deg, var(--biringan-rose) 0%, var(--biringan-pink) 100%);
+    border-color: transparent;
+}
+.b2-action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--emu-shadow-3);
+}
+.b2-action-card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+.b2-action-card-content h3 {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.375rem;
+}
+.b2-action-card-content p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.80);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+}
+
+/* -- Status Distribution Visualization ------------------------ */
+.b2-status-distribution-item {
+    margin-bottom: 1.25rem;
+}
+.b2-status-distribution-item:last-child {
+    margin-bottom: 0;
+}
+.b2-status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.b2-status-dot.ic-pending  { background-color: #8a6020; }
+.b2-status-dot.ic-info     { background-color: var(--emu-info); }
+.b2-status-dot.ic-rose     { background-color: var(--biringan-rose); }
+.b2-status-dot.ic-done     { background-color: var(--emu-success); }
+.b2-status-dot.ic-gold     { background-color: var(--biringan-gold); }
+.b2-status-dist-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--biringan-text);
+}
+.b2-status-dist-value {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--biringan-primary);
+}
+.b2-status-dist-bar {
+    height: 8px;
+    background: var(--emu-bg-alt);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.b2-status-dist-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+.b2-status-dist-fill.ic-pending  { background-color: #8a6020; }
+.b2-status-dist-fill.ic-info     { background-color: var(--emu-info); }
+.b2-status-dist-fill.ic-rose     { background-color: var(--biringan-rose); }
+.b2-status-dist-fill.ic-done     { background-color: var(--emu-success); }
+.b2-status-dist-fill.ic-gold     { background-color: var(--biringan-gold); }
+
+/* -- Quick Access Links --------------------------------------- */
+.b2-quick-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1rem;
+    background: var(--biringan-card);
+    border: 1px solid var(--biringan-border);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+.b2-quick-link:hover {
+    border-color: var(--biringan-primary);
+    box-shadow: var(--emu-shadow-2);
+    transform: translateY(-2px);
+}
+.b2-quick-link-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: rgba(74,31,70,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.375rem;
+    color: var(--biringan-primary);
+    transition: all 0.2s ease;
+}
+.b2-quick-link:hover .b2-quick-link-icon {
+    background: var(--biringan-primary);
+    color: #fff;
+    transform: scale(1.1);
+}
+.b2-quick-link-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--biringan-text);
+}
+
+/* -- Responsive Adjustments ----------------------------------- */
+@media (max-width: 1199.98px) {
+    .b2-info-steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 991.98px) {
+    .b2-dashboard-hero {
+        padding: 1.5rem 1.25rem;
+    }
+    .b2-status-metric-value {
+        font-size: 1.5rem;
+    }
+}
+@media (max-width: 767.98px) {
+    .b2-hero-title {
+        font-size: 1.375rem;
+    }
+    .b2-metric {
+        padding: 1rem;
+    }
+    .b2-metric-value {
+        font-size: 1.5rem;
+    }
+    .b2-metric-icon {
+        width: 44px;
+        height: 44px;
+    }
+    .b2-info-steps {
+        grid-template-columns: 1fr;
+    }
+    .b2-action-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .b2-status-metric-card {
+        padding: 1rem;
+    }
+    .b2-status-metric-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.125rem;
+    }
+    .b2-status-metric-value {
+        font-size: 1.375rem;
+    }
+}
+@media (max-width: 575.98px) {
+    .b2-dashboard-hero {
+        padding: 1.25rem 1rem;
+    }
+    .b2-empty {
+        padding: 2rem 1rem;
+    }
+    .b2-empty-icon {
+        font-size: 2.5rem;
+    }
+}
+
+
+/* ================================================================
+   PHASE B3 � LANDING PAGE SCROLL EXPERIENCE
+   Subtle, professional scroll animations for Biringan 2.0
+   ================================================================ */
+
+/* -- Hero Parallax Container ---------------------------------- */
+.b2-pub-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.b2-pub-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--biringan-dark) 0%, var(--biringan-purple) 50%, var(--biringan-primary) 100%);
+    z-index: -1;
+    /* Parallax effect applied via JS */
+    will-change: transform;
+}
+
+/* Existing hero gradient pattern overlay */
+.b2-pub-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(216,176,106,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(216,92,134,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.b2-pub-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* -- Scroll Reveal System ------------------------------------- */
+/* Initial state for elements that will animate on scroll */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Revealed state */
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays for groups of elements */
+.scroll-reveal-delay-1 {
+    transition-delay: 0.1s;
+}
+
+.scroll-reveal-delay-2 {
+    transition-delay: 0.2s;
+}
+
+.scroll-reveal-delay-3 {
+    transition-delay: 0.3s;
+}
+
+.scroll-reveal-delay-4 {
+    transition-delay: 0.4s;
+}
+
+.scroll-reveal-delay-5 {
+    transition-delay: 0.5s;
+}
+
+/* Subtle variant with less movement */
+.scroll-reveal-subtle {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-reveal-subtle.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scale variant for cards */
+.scroll-reveal-scale {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-reveal-scale.revealed {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Slide from left */
+.scroll-reveal-left {
+    opacity: 0;
+    transform: translateX(-24px);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-reveal-left.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Slide from right */
+.scroll-reveal-right {
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-reveal-right.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Reduced motion: disable scroll reveal animations */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-reveal,
+    .scroll-reveal-subtle,
+    .scroll-reveal-scale,
+    .scroll-reveal-left,
+    .scroll-reveal-right {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* -- Smooth Section Transitions ------------------------------- */
+/* Sections fade in subtly as they enter viewport */
+section {
+    /* Slightly faster opacity transition than transform for smoothness */
+    transition: opacity 0.4s ease;
+}
+
+/* -- Enhanced Card Hover -------------------------------------- */
+/* Service cards get subtle lift on hover */
+.b2-feature-card,
+.b2-hiw-step-card {
+    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* -- Scroll Progress Indicator (Optional) --------------------- */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--biringan-rose), var(--biringan-gold));
+    z-index: 9999;
+    transition: width 0.1s linear;
+    opacity: 0;
+}
+
+.scroll-progress.visible {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-progress {
+        display: none;
+    }
+}
+
+
+/* ================================================================
+   LANDING PAGE REFERENCE REDESIGN
+   Matching the visual reference image exactly
+   ================================================================ */
+
+/* ── SECTION 1: HERO ──────────────────────────────────────────── */
+.lp-ref-hero {
+    position: relative;
+    background: linear-gradient(135deg, #1B102B 0%, #2B173D 40%, #4A1F46 100%);
+    padding: 5rem 0 4.5rem;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+/* Scenic background pattern */
+.lp-ref-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(216,176,106,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(216,92,134,0.06) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.lp-ref-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(18,11,31,0.3));
+    pointer-events: none;
+}
+
+.lp-ref-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.lp-ref-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(216,176,106,0.15);
+    border: 1px solid rgba(216,176,106,0.30);
+    color: #F0D9A0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    margin-bottom: 1.5rem;
+}
+
+.lp-ref-hero-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+}
+
+.lp-ref-hero-gradient {
+    background: linear-gradient(90deg, #F0D9A0 0%, #D85C86 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.lp-ref-hero-subtitle {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600;
+    color: rgba(255,255,255,0.90);
+}
+
+.lp-ref-hero-desc {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.70);
+    line-height: 1.7;
+    max-width: 560px;
+}
+
+.lp-ref-btn-primary {
+    background: #fff !important;
+    border-color: #fff !important;
+    color: #4A1F46 !important;
+    font-weight: 600;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(255,255,255,0.25);
+    transition: all 0.2s ease;
+}
+
+.lp-ref-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,255,255,0.35);
+    color: #2B173D !important;
+}
+
+.lp-ref-btn-secondary {
+    background: rgba(255,255,255,0.10) !important;
+    border: 2px solid rgba(255,255,255,0.30) !important;
+    color: rgba(255,255,255,0.95) !important;
+    font-weight: 500;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.lp-ref-btn-secondary:hover {
+    background: rgba(255,255,255,0.15) !important;
+    border-color: rgba(255,255,255,0.50) !important;
+    color: #fff !important;
+}
+
+.lp-ref-admin-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(216,176,106,0.22);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.30);
+}
+
+.lp-ref-admin-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1.25rem;
+    filter: drop-shadow(0 4px 20px rgba(216,176,106,0.35));
+}
+
+.lp-ref-admin-label {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: #F0D9A0;
+    margin-bottom: 0.5rem;
+}
+
+.lp-ref-admin-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.375rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.lp-ref-admin-subtitle {
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.60);
+    margin: 0;
+}
+
+/* ── SECTION 2: FEATURE CARDS ─────────────────────────────────── */
+.lp-ref-features {
+    background: #F8F6F8;
+    padding: 4rem 0;
+}
+
+.lp-ref-feature-card {
+    background: #fff;
+    border: 1px solid #E8E0E8;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    height: 100%;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(74,31,70,0.08);
+}
+
+.lp-ref-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(74,31,70,0.15);
+    border-color: #D85C86;
+}
+
+.lp-ref-feature-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(74,31,70,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: #4A1F46;
+    margin: 0 auto 1.25rem;
+}
+/* Icon colour modifiers — mirror .b2-feature-card-icon.ic-* for lp-ref cards */
+.lp-ref-feature-icon.ic-purple { background: rgba(74,31,70,0.12);   color: var(--biringan-primary); }
+.lp-ref-feature-icon.ic-rose   { background: rgba(216,92,134,0.14);  color: var(--biringan-rose); }
+.lp-ref-feature-icon.ic-gold   { background: rgba(216,176,106,0.20); color: #8a6020; }
+.lp-ref-feature-icon.ic-teal   { background: rgba(26,122,74,0.12);   color: var(--emu-success); }
+
+.lp-ref-feature-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #241C29;
+    margin-bottom: 0.75rem;
+}
+
+.lp-ref-feature-desc {
+    font-size: 0.875rem;
+    color: #756C78;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.lp-ref-feature-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #D85C86;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s ease;
+}
+
+.lp-ref-feature-link:hover {
+    color: #4A1F46;
+}
+
+/* ── SECTION 3: ABOUT BIRINGAN CITY ───────────────────────────── */
+.lp-ref-about {
+    background: linear-gradient(135deg, #2B173D 0%, #1B102B 100%);
+    padding: 5rem 0;
+    color: #fff;
+}
+
+.lp-ref-section-accent {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, #D8B06A, #F0D9A0);
+    border-radius: 2px;
+    margin-bottom: 1.25rem;
+}
+
+.lp-ref-section-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(1.875rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.lp-ref-about-text {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+}
+
+.lp-ref-about-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.lp-ref-about-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(216,176,106,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #F0D9A0;
+    flex-shrink: 0;
+}
+
+.lp-ref-about-item-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.lp-ref-about-item-desc {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.70);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.lp-ref-link-gold {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #F0D9A0;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s ease;
+}
+
+.lp-ref-link-gold:hover {
+    color: #fff;
+}
+
+.lp-ref-about-image {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+}
+
+.lp-ref-scenic-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(216,92,134,0.15) 0%, rgba(216,176,106,0.15) 100%);
+    border: 2px solid rgba(216,176,106,0.25);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.50);
+}
+
+.lp-ref-scenic-placeholder i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.lp-ref-scenic-placeholder p {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ── SECTION 4: HOW IT WORKS ──────────────────────────────────── */
+.lp-ref-hiw {
+    background: #F8F6F8;
+    padding: 5rem 0;
+}
+
+.lp-ref-section-title-dark {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(1.875rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: #241C29;
+    line-height: 1.2;
+}
+
+.lp-ref-section-subtitle-dark {
+    font-size: 1.0625rem;
+    color: #756C78;
+}
+
+.lp-ref-steps-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.lp-ref-step-item {
+    position: relative;
+    flex: 1 1 160px;
+    max-width: 100%;   /* was 180px — was squishing cards inside col-lg-4 grid columns */
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: #fff;
+    border: 1px solid #E8E0E8;
+    border-radius: 16px;
+    height: 100%;
+    box-shadow: 0 2px 8px rgba(74,31,70,0.07);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.lp-ref-step-item:hover {
+    box-shadow: 0 6px 20px rgba(74,31,70,0.13);
+    transform: translateY(-3px);
+}
+
+.lp-ref-step-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4A1F46 0%, #2B173D 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 800;
+    margin: 0 auto 1rem;
+    box-shadow: 0 4px 12px rgba(74,31,70,0.25);
+}
+
+.lp-ref-step-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: rgba(74,31,70,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #4A1F46;
+    margin: 0 auto 1rem;
+}
+
+.lp-ref-step-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #241C29;
+    margin-bottom: 0.5rem;
+}
+
+.lp-ref-step-desc {
+    font-size: 0.8125rem;
+    color: #756C78;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.lp-ref-step-arrow {
+    position: absolute;
+    top: 30px;
+    right: -20px;
+    color: rgba(216,92,134,0.30);
+    font-size: 1.5rem;
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .lp-ref-step-arrow {
+        display: block;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .lp-ref-steps-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .lp-ref-step-item {
+        max-width: 300px;
+    }
+}
+
+/* ── SECTION 5: FAQ ───────────────────────────────────────────── */
+.lp-ref-faq {
+    background: linear-gradient(135deg, #1B102B 0%, #2B173D 100%);
+    padding: 5rem 0;
+    color: #fff;
+}
+
+.lp-ref-faq-intro {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.70);
+    line-height: 1.7;
+}
+
+.lp-ref-faq-item {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(216,176,106,0.20);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.lp-ref-faq-item:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(216,176,106,0.35);
+}
+
+.lp-ref-faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+.lp-ref-faq-chevron {
+    font-size: 1.25rem;
+    color: #F0D9A0;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
+.lp-ref-faq-item.active .lp-ref-faq-chevron {
+    transform: rotate(180deg);
+}
+
+.lp-ref-faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 1.5rem;
+    font-size: 0.9375rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.lp-ref-faq-item.active .lp-ref-faq-answer {
+    max-height: 500px;
+    padding: 0 1.5rem 1.25rem;
+}
+
+/* ── SECTION 6: ANNOUNCEMENT ──────────────────────────────────── */
+.lp-ref-announcement {
+    background: linear-gradient(90deg, #4A1F46 0%, #2B173D 100%);
+    border-top: 2px solid rgba(216,176,106,0.30);
+    border-bottom: 2px solid rgba(216,176,106,0.30);
+    padding: 1.25rem 0;
+}
+
+.lp-ref-announcement-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.lp-ref-announcement-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(216,176,106,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #F0D9A0;
+    flex-shrink: 0;
+}
+
+.lp-ref-announcement-text {
+    flex: 1;
+    font-size: 0.9375rem;
+    color: rgba(255,255,255,0.90);
+    min-width: 0;
+}
+
+.lp-ref-announcement-text strong {
+    color: #fff;
+}
+
+.lp-ref-announcement-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #F0D9A0;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
+
+.lp-ref-announcement-link:hover {
+    color: #fff;
+}
+
+/* ── SECTION 7: CONTACT ───────────────────────────────────────── */
+.lp-ref-contact {
+    background: linear-gradient(135deg, #2B173D 0%, #1B102B 100%);
+    padding: 5rem 0;
+    color: #fff;
+}
+
+.lp-ref-contact-image {
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+}
+
+.lp-ref-contact-subtitle {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+}
+
+.lp-ref-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 1rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(216,176,106,0.20);
+    border-radius: 12px;
+}
+
+.lp-ref-contact-item i {
+    font-size: 1.25rem;
+    color: #F0D9A0;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.lp-ref-contact-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.60);
+    margin-bottom: 0.25rem;
+}
+
+.lp-ref-contact-value {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.lp-ref-support-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(216,176,106,0.25);
+    border-radius: 16px;
+    padding: 1.75rem;
+}
+
+.lp-ref-support-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #D85C86, #D8B06A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.lp-ref-support-name {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.lp-ref-support-status {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.70);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lp-ref-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ── RESPONSIVE ADJUSTMENTS ───────────────────────────────────── */
+@media (max-width: 991.98px) {
+    .lp-ref-hero {
+        padding: 3.5rem 0 3rem;
+        min-height: auto;
+    }
+    
+    .lp-ref-admin-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .lp-ref-features,
+    .lp-ref-about,
+    .lp-ref-hiw,
+    .lp-ref-faq,
+    .lp-ref-contact {
+        padding: 3.5rem 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .lp-ref-hero {
+        padding: 2.5rem 0 2rem;
+    }
+    
+    .lp-ref-hero-title {
+        font-size: 1.875rem;
+    }
+    
+    .lp-ref-announcement-content {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .lp-ref-announcement-link {
+        align-self: flex-start;
+    }
+}
+
+/* ── DECORATIVE FOOTER PATTERN ────────────────────────────────── */
+.footer-public::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(90deg, 
+        rgba(216,176,106,0.10) 0%, 
+        rgba(216,92,134,0.10) 25%, 
+        rgba(74,31,70,0.10) 50%, 
+        rgba(216,92,134,0.10) 75%, 
+        rgba(216,176,106,0.10) 100%
+    );
+    background-size: 200px 40px;
+    background-repeat: repeat-x;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(216,176,106,0.20);
+}
+
+/* ================================================================
+   PHASE 4 — REFERENCE ALIGNMENT CORRECTIONS
+   ================================================================ */
+
+/* Fix: contact form dark inputs — placeholder colour */
+#contact .form-control::placeholder,
+.lp-ref-contact .form-control::placeholder {
+    color: rgba(255,255,255,0.40);
+}
+#contact .form-control:focus,
+.lp-ref-contact .form-control:focus {
+    background: rgba(255,255,255,0.12) !important;
+    border-color: rgba(216,176,106,0.50) !important;
+    color: #fff;
+    box-shadow: 0 0 0 3px rgba(216,176,106,0.15);
+}
+
+/* Fix: step-item h3 / p — ensure title+desc classes apply when
+   used inside Bootstrap grid columns (not flex container) */
+.lp-ref-step-item h3,
+.lp-ref-step-item .lp-ref-step-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #241C29;
+    margin-bottom: 0.5rem;
+}
+.lp-ref-step-item p,
+.lp-ref-step-item .lp-ref-step-desc {
+    font-size: 0.8125rem;
+    color: #756C78;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Fix: feature card h3/p typography when using title/desc classes */
+.lp-ref-feature-card h3,
+.lp-ref-feature-card .lp-ref-feature-title {
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #241C29;
+    margin-bottom: 0.75rem;
+}
+.lp-ref-feature-card p,
+.lp-ref-feature-card .lp-ref-feature-desc {
+    font-size: 0.875rem;
+    color: #756C78;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Fix: lp-ref-step-item in Bootstrap grid — reset flex properties */
+[class*="col-"] > .lp-ref-step-item {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+}
+
+/* Fix: lp-service-card used in document services section */
+.lp-service-card {
+    background: #fff;
+    border: 1px solid rgba(74,32,42,0.12);
+    border-radius: 14px;
+    padding: 1.125rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.lp-service-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: var(--biringan-rose);
+    transform: translateY(-2px);
+}
+
+/* ================================================================
+   FORENSIC UI FIX — Admin/Staff Spacing, Tables, Modals
+   ================================================================ */
+
+/* ── FIX 1: MODAL POSITIONING ────────────────────────────────────
+   Root cause: transform: translateY() on .auth-content creates a
+   new CSS stacking context. Bootstrap modals use position:fixed
+   and expect their containing block to be the viewport. When any
+   ancestor has an active CSS transform, position:fixed anchors to
+   that ancestor instead, causing the modal to appear too low.
+
+   Solution: while any Bootstrap modal is shown, override the
+   transform on .auth-content to none via the .modal-open state
+   class that Bootstrap adds to <body>. This is safer than removing
+   the page-transition animation entirely.
+   ---------------------------------------------------------------- */
+body.modal-open .auth-content {
+    transform: none !important;
+}
+
+/* ── FIX 2: ADMIN TABLE PADDING ─────────────────────────────────
+   Root cause: Admin pages use .table.table-hover (not .b2-table).
+   The base .table thead th and tbody td rules in Section 11 had no
+   explicit padding, falling back to Bootstrap's 0.5rem (~8px) which
+   is too tight. Fix applied directly to Section 11 above (padding
+   added inline). This block adds the first-column breathing room.
+   ---------------------------------------------------------------- */
+.table thead th:first-child,
+.table tbody td:first-child {
+    padding-left: 1.25rem;
+}
+.table thead th:last-child,
+.table tbody td:last-child {
+    padding-right: 1.25rem;
+}
+
+/* Same first/last column treatment for .b2-table */
+.b2-table thead th:first-child,
+.b2-table tbody td:first-child {
+    padding-left: 1.25rem;
+}
+.b2-table thead th:last-child,
+.b2-table tbody td:last-child {
+    padding-right: 1.25rem;
+}
+
+/* ── FIX 3: ADMIN KPI CARD MAX-WIDTH ─────────────────────────────
+   Root cause: .b2-metric has no max-width, so at very wide
+   viewports (≥1600px) the 4-card row stretches beyond ~320px/card.
+   Using col-lg-3 Bootstrap columns already handles sizing correctly
+   for ≤1440px. Add a max-width cap so cards don't over-stretch.
+   ---------------------------------------------------------------- */
+.b2-metric {
+    max-width: 360px;
+}
+/* Center within column at very wide screens */
+@media (min-width: 1400px) {
+    .b2-metric {
+        max-width: 100%;
+    }
+}
+
+/* ── FIX 4: STAFF KPI CARD MAX-WIDTH ────────────────────────────
+   Root cause: Staff uses col-6 col-lg-4 (3 cards). Same treatment
+   as admin — the .b2-metric-featured variant already has the correct
+   shadow. Add consistent vertical rhythm to the icon.
+   ---------------------------------------------------------------- */
+.b2-metric-featured {
+    border-left: 3px solid var(--biringan-primary);
+}
+.b2-metric-featured .b2-metric-icon {
+    border-radius: 12px;
+}
+
+/* ── FIX 5: WORKLOAD OVERVIEW SPACING ───────────────────────────
+   Root cause: Bootstrap .card-body inside .b2-card uses Bootstrap's
+   default 1rem padding on all sides. The group titles and cards need
+   consistent internal breathing room. Ensure .b2-card .card-body
+   has the correct padding to match the .b2-card-header padding.
+   ---------------------------------------------------------------- */
+.b2-card > .card-body {
+    padding: 1.25rem;
+}
+/* Group title: reduce bottom gap before the first card row */
+.b2-status-group-title {
+    margin-top: 0;
+}
+/* Ensure workload cards fill their column height */
+.b2-card .b2-status-metric-card {
+    height: 100%;
+    min-height: 76px;
+}
+
+/* ── FIX 6: TABLE CONTAINER CARD EDGE PADDING ───────────────────
+   Root cause: .card > .card-body.p-0 removes ALL padding, pushing
+   the table flush against the card border. The first/last column
+   padding fix above handles cell content. Also ensure .card itself
+   has a consistent border-radius for all admin table cards.
+   ---------------------------------------------------------------- */
+.card {
+    border-radius: 12px;
+    border: 1px solid var(--biringan-border);
+    box-shadow: var(--emu-shadow-1);
+}
+.card-body.p-0 + .table-responsive,
+.card-body.p-0 > .table-responsive {
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+}
+
+/* ── FIX 7: RESPONSIVE MODAL SCROLLING ──────────────────────────
+   Ensure modals with long content (e.g. remark textarea) remain
+   usable on smaller viewports. Bootstrap handles this natively with
+   .modal-dialog-scrollable, but add a max-height fallback.
+   ---------------------------------------------------------------- */
+.modal-dialog-centered .modal-content {
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+}
+/* Keep header/footer fixed, only body scrolls */
+.modal-dialog-centered .modal-header,
+.modal-dialog-centered .modal-footer {
+    position: sticky;
+    background: #fff;
+    z-index: 1;
+}
+.modal-dialog-centered .modal-header {
+    top: 0;
+}
+.modal-dialog-centered .modal-footer {
+    bottom: 0;
+}
+
+/* ── FIX 8: RESPONSIVE TABLE OVERFLOW ───────────────────────────
+   Ensure table-responsive containers don't cause horizontal overflow
+   on narrow viewports beyond their scroll area.
+   ---------------------------------------------------------------- */
+.table-responsive {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ── FIX 9: b2-page-header bottom margin consistency ────────────
+   Ensure page headers on all admin/staff pages have the same
+   bottom spacing as the dashboard hero.
+   ---------------------------------------------------------------- */
+.b2-page-header {
+    margin-bottom: 1.5rem;
+}
+
+/* ── Responsive adjustments for the fixes above ─────────────────*/
+@media (max-width: 767.98px) {
+    .b2-metric {
+        max-width: 100%;
+    }
+    .b2-metric-featured {
+        border-left-width: 3px;
+    }
+    .b2-card > .card-body {
+        padding: 1rem;
+    }
+    /* Stack table first/last column padding on mobile */
+    .table thead th:first-child,
+    .table tbody td:first-child {
+        padding-left: 0.875rem;
+    }
+    .table thead th:last-child,
+    .table tbody td:last-child {
+        padding-right: 0.875rem;
+    }
+    .b2-table thead th:first-child,
+    .b2-table tbody td:first-child {
+        padding-left: 0.875rem;
+    }
+    .b2-table thead th:last-child,
+    .b2-table tbody td:last-child {
+        padding-right: 0.875rem;
+    }
+}
+@media (max-width: 575.98px) {
+    .modal-dialog-centered .modal-content {
+        max-height: calc(100dvh - 1rem);
+    }
+    .b2-card > .card-body {
+        padding: 0.875rem;
+    }
+}

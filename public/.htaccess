@@ -1,0 +1,54 @@
+Options -Indexes
+
+# ---------------------------------------------------------------------------
+# Security headers (Req 14.11)
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Req 14.11: X-Frame-Options DENY — prevents clickjacking
+    Header always set X-Frame-Options "DENY"
+
+    # Req 14.11: X-Content-Type-Options — prevents MIME-sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Referrer policy — no change, already appropriate
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Req 14.11: Content-Security-Policy
+    # Directives chosen to match the ACTUAL application:
+    #   script-src: self + Bootstrap CDN + 'unsafe-inline' (logout modal inline script in auth.php)
+    #   style-src:  self + Bootstrap CDN + Google Fonts + 'unsafe-inline' (353 inline style="" attributes across views)
+    #   font-src:   self + Google Fonts CDN + Bootstrap Icons CDN (woff2) + data:
+    #   img-src:    self + data: (for SVG data URIs in CSS)
+    #   connect-src: self only (no external AJAX calls from app JS)
+    #   frame-ancestors 'none' — doubles as X-Frame-Options for CSP-aware browsers
+    #   form-action 'self' — forms only submit to own origin
+    #   base-uri 'self' — prevents base tag injection
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' cdn.jsdelivr.net fonts.googleapis.com 'unsafe-inline'; font-src 'self' fonts.gstatic.com cdn.jsdelivr.net data:; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+
+    # X-XSS-Protection removed: deprecated in modern browsers, can cause issues
+    # (the CSP above provides equivalent protection for content injection)
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Deny direct access to sensitive directories and file types
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Deny access to storage directory (defence-in-depth; on production
+    # hosting storage/ is above the document root and already unreachable)
+    RewriteRule ^storage/ - [F,L]
+
+    # Deny SQL dumps, log files, shell scripts, and backup files
+    RewriteRule \.(sql|log|sh|bak|swp|swo|orig|phar)$ - [F,L]
+
+    # ---------------------------------------------------------------------------
+    # Front controller rewrite
+    # ---------------------------------------------------------------------------
+    # If the request is for a real file or directory, serve it directly
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Route everything else through index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
