@@ -160,6 +160,54 @@ class Payment extends BaseModel
     }
 
     /**
+     * Switch payment method on an existing unpaid payment row.
+     *
+     * Only acts when payment_status is 'pending' or 'online_pending'.
+     * A paid row is never modified (rowCount returns 0 — caller must check).
+     *
+     * Resets online-specific fields (transaction_ref, confirmed_by, confirmed_at)
+     * when switching away from 'online', and resets to STATUS_PENDING when
+     * switching to 'cash', or STATUS_ONLINE_PENDING when switching to 'online'.
+     *
+     * The amount is preserved — it was snapshotted from the DB at first selection
+     * and must not change on a method switch.
+     *
+     * Returns:
+     *   1 = row updated
+     *   0 = row already paid or not found (no change made)
+     */
+    public function switchMethod(
+        int    $paymentId,
+        string $newMethod,
+        int    $updatedBy
+    ): int {
+        // Derive the correct new status for the target method
+        $newStatus = ($newMethod === self::METHOD_ONLINE)
+            ? self::STATUS_ONLINE_PENDING
+            : self::STATUS_PENDING;
+
+        $stmt = $this->db->prepare(
+            "UPDATE `payments`
+             SET `payment_method`  = :new_method,
+                 `payment_status`  = :new_status,
+                 `transaction_ref` = NULL,
+                 `confirmed_by`    = NULL,
+                 `confirmed_at`    = NULL,
+                 `notes`           = NULL
+             WHERE `id` = :id
+               AND `payment_status` IN (:pending, :online_pending)"
+        );
+        $stmt->execute([
+            ':new_method'      => $newMethod,
+            ':new_status'      => $newStatus,
+            ':id'              => $paymentId,
+            ':pending'         => self::STATUS_PENDING,
+            ':online_pending'  => self::STATUS_ONLINE_PENDING,
+        ]);
+        return $stmt->rowCount();
+    }
+
+    /**
      * Confirm cash receipt by Staff (Phase 2 — unchanged).
      *
      * Returns:

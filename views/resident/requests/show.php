@@ -456,14 +456,25 @@ foreach (array_reverse($history) as $h) {
                             : '—' ?>
                     </dd>
                 </dl>
-                <div class="alert alert-warning py-2 mb-0" role="status" style="font-size:0.8rem;">
+                <div class="alert alert-warning py-2 mb-3" role="status" style="font-size:0.8rem;">
                     <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
                     Please bring <strong>&#8369;<?= $e(number_format((float)$payment['amount'], 2)) ?></strong>
                     when you collect your document. Staff will confirm receipt.
                 </div>
+                <!-- Change payment method: Cash → Online -->
+                <form method="POST"
+                      action="<?= $e($appUrl) ?>/resident/requests/<?= (int)($request['id'] ?? 0) ?>/payment/switch"
+                      data-loading="Switching…">
+                    <input type="hidden" name="_csrf_token" value="<?= $e($csrfToken) ?>">
+                    <input type="hidden" name="new_method"  value="online">
+                    <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                        <i class="bi bi-arrow-left-right me-1" aria-hidden="true"></i>
+                        Switch to Online Payment (Demo)
+                    </button>
+                </form>
 
                 <?php elseif (($payment['payment_status'] ?? '') === 'online_pending'): ?>
-                <!-- ── Online payment initiated (should auto-confirm immediately in normal flow) ── -->
+                <!-- ── Online payment initiated — may still be pending if switched from cash ── -->
                 <dl class="row mb-2" style="font-size:0.875rem;">
                     <dt class="col-6 text-label">Method</dt>
                     <dd class="col-6">Online Payment (Demo)</dd>
@@ -473,9 +484,25 @@ foreach (array_reverse($history) as $h) {
                     </dd>
                     <dt class="col-6 text-label">Status</dt>
                     <dd class="col-6" style="color:var(--emu-warning);">
-                        <i class="bi bi-hourglass-split me-1" aria-hidden="true"></i>Processing…
+                        <i class="bi bi-hourglass-split me-1" aria-hidden="true"></i>Pending
                     </dd>
                 </dl>
+                <a href="<?= $e($appUrl) ?>/resident/requests/<?= (int)($request['id'] ?? 0) ?>/payment/online"
+                   class="btn btn-primary btn-sm w-100 mb-2">
+                    <i class="bi bi-phone me-1" aria-hidden="true"></i>
+                    Complete Online Payment (Demo)
+                </a>
+                <!-- Change payment method: Online → Cash -->
+                <form method="POST"
+                      action="<?= $e($appUrl) ?>/resident/requests/<?= (int)($request['id'] ?? 0) ?>/payment/switch"
+                      data-loading="Switching…">
+                    <input type="hidden" name="_csrf_token" value="<?= $e($csrfToken) ?>">
+                    <input type="hidden" name="new_method"  value="cash">
+                    <button type="submit" class="btn btn-outline-secondary btn-sm w-100">
+                        <i class="bi bi-arrow-left-right me-1" aria-hidden="true"></i>
+                        Switch to Cash Instead
+                    </button>
+                </form>
 
                 <?php else: /* paid */ ?>
                 <!-- ── Payment confirmed (cash or online) ── -->

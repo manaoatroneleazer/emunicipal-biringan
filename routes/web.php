@@ -87,6 +87,7 @@ $router->post('/resident/requests/{id}/cancel', RequestController::class,       
 $router->post('/resident/requests/{id}/documents', RequestController::class,      'uploadAdditionalDocuments');
 $router->get( '/resident/requests/{id}/payment',          PaymentController::class,  'show');
 $router->post('/resident/requests/{id}/payment',          PaymentController::class,  'selectCash');
+$router->post('/resident/requests/{id}/payment/switch',   PaymentController::class,  'switchMethod');
 $router->get( '/resident/requests/{id}/payment/online',   PaymentController::class,  'simulateOnline');
 $router->post('/resident/requests/{id}/payment/online',   PaymentController::class,  'processOnline');
 $router->get( '/resident/requests/{id}/payment/receipt',  PaymentController::class,  'receipt');

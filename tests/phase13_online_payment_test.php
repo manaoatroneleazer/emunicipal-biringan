@@ -343,7 +343,7 @@ chk('PAY3-04', 'transaction_ref is NULL before confirmOnline',
 
 // ── PAY3-05: confirmOnline transitions online_pending -> paid ──────────────────
 $txnRef = Payment::generateTransactionRef();
-$rows   = $payModel->confirmOnline($payId, $testResidentId, $txnRef);
+$rows   = $payModel->confirmOnline($payId, $txnRef, $testResidentId);
 chk('PAY3-05', 'confirmOnline returns rowCount=1 on first call',
     $rows === 1, "rows=$rows");
 
@@ -358,7 +358,7 @@ chk('PAY3-08', 'confirmed_at timestamp set',
     $paidRow && !empty($paidRow['confirmed_at']), "confirmed_at=" . ($paidRow['confirmed_at'] ?? 'null'));
 
 // ── PAY3-09: Duplicate confirmOnline returns 0 ────────────────────────────────
-$rows2 = $payModel->confirmOnline($payId, $testResidentId, Payment::generateTransactionRef());
+$rows2 = $payModel->confirmOnline($payId, Payment::generateTransactionRef(), $testResidentId);
 chk('PAY3-09', 'Duplicate confirmOnline returns rowCount=0 (idempotent guard)',
     $rows2 === 0, "rows=$rows2");
 
@@ -432,6 +432,96 @@ chk('REG-05', 'allowedTransitions unchanged for pending status',
 
 chk('REG-06', 'Existing user count intact',
     (int)$pdo->query("SELECT COUNT(*) FROM users")->fetchColumn() >= 6);
+
+// ── SWITCH METHOD tests (Phase 13 section) ─────────────────────────────────────
+
+if ($migrationApplied && isset($testResidentId, $testDocFee)) {
+    // Create a dedicated switch test request so we don't clash with the PAY3 request
+    $swRefNum = 'EMU-TEST-SW-' . time();
+    $oldSw = $pdo->query("SELECT id FROM requests WHERE reference_number LIKE 'EMU-TEST-SW-%'")->fetchAll(\PDO::FETCH_COLUMN);
+    foreach ($oldSw as $oid) {
+        $pdo->prepare("DELETE FROM payments WHERE request_id=:id")->execute([':id'=>$oid]);
+        $pdo->prepare("DELETE FROM request_status_history WHERE request_id=:id")->execute([':id'=>$oid]);
+        $pdo->prepare("DELETE FROM requests WHERE id=:id")->execute([':id'=>$oid]);
+    }
+    $pdo->prepare(
+        "INSERT INTO requests (reference_number,user_id,document_type_id,purpose,copies_requested,status,created_at,updated_at)
+         VALUES (:ref,:uid,:dtid,'Phase 13 switch test',1,'ready_for_claiming',NOW(),NOW())"
+    )->execute([':ref'=>$swRefNum,':uid'=>$testResidentId,':dtid'=>$testDocTypeId]);
+    $swReqId = (int)$pdo->lastInsertId();
+    $pdo->prepare("INSERT INTO request_status_history (request_id,previous_status,new_status,changed_by,created_at)
+        VALUES (:rid,NULL,'ready_for_claiming',:uid,NOW())")->execute([':rid'=>$swReqId,':uid'=>$testStaffId??1]);
+
+    $pmSw = new Payment();
+
+    // SW3-01: Start with cash, switch to online
+    $swId = $pmSw->insertPending($swReqId, $testDocFee, $testResidentId);
+    $r = $pmSw->switchMethod($swId, Payment::METHOD_ONLINE, $testResidentId);
+    $s = $pdo->prepare("SELECT payment_method, payment_status, transaction_ref FROM payments WHERE id=:id");
+    $s->execute([':id'=>$swId]); $row = $s->fetch();
+    chk('SW3-01', 'switchMethod cash→online: rowCount=1', $r === 1, "rows=$r");
+    chk('SW3-02', 'switchMethod cash→online: method=online',
+        $row && $row['payment_method'] === 'online', "method=" . ($row['payment_method'] ?? 'null'));
+    chk('SW3-03', 'switchMethod cash→online: status=online_pending',
+        $row && $row['payment_status'] === 'online_pending', "status=" . ($row['payment_status'] ?? 'null'));
+    chk('SW3-04', 'switchMethod cash→online: transaction_ref NULL',
+        $row && ($row['transaction_ref'] ?? null) === null, "txn_ref=" . ($row['transaction_ref'] ?? 'null'));
+
+    // SW3-02: Switch back to cash
+    $r2 = $pmSw->switchMethod($swId, Payment::METHOD_CASH, $testResidentId);
+    $s2 = $pdo->prepare("SELECT payment_method, payment_status FROM payments WHERE id=:id");
+    $s2->execute([':id'=>$swId]); $row2 = $s2->fetch();
+    chk('SW3-05', 'switchMethod online→cash: rowCount=1', $r2 === 1, "rows=$r2");
+    chk('SW3-06', 'switchMethod online→cash: method=cash',
+        $row2 && $row2['payment_method'] === 'cash', "method=" . ($row2['payment_method'] ?? 'null'));
+    chk('SW3-07', 'switchMethod online→cash: status=pending',
+        $row2 && $row2['payment_status'] === 'pending', "status=" . ($row2['payment_status'] ?? 'null'));
+
+    // SW3-03: No duplicate rows after multiple switches
+    $pmSw->switchMethod($swId, Payment::METHOD_ONLINE, $testResidentId);
+    $pmSw->switchMethod($swId, Payment::METHOD_CASH,   $testResidentId);
+    $cSw = $pdo->prepare("SELECT COUNT(*) FROM payments WHERE request_id=:r");
+    $cSw->execute([':r'=>$swReqId]);
+    chk('SW3-08', 'No duplicate payment rows after multiple switches',
+        (int)$cSw->fetchColumn() === 1);
+
+    // SW3-04: confirmOnline works after switching back to online
+    $pmSw->switchMethod($swId, Payment::METHOD_ONLINE, $testResidentId);
+    $txnSw = Payment::generateTransactionRef();
+    $rConf = $pmSw->confirmOnline($swId, $txnSw, $testResidentId);
+    $sConf = $pdo->prepare("SELECT payment_status, transaction_ref FROM payments WHERE id=:id");
+    $sConf->execute([':id'=>$swId]); $rowConf = $sConf->fetch();
+    chk('SW3-09', 'confirmOnline succeeds on online_pending row after switch (rows=1)',
+        $rConf === 1, "rows=$rConf");
+    chk('SW3-10', 'Status is paid after confirmOnline on switched row',
+        $rowConf && $rowConf['payment_status'] === 'paid', "status=" . ($rowConf['payment_status'] ?? 'null'));
+    chk('SW3-11', 'transaction_ref stored after confirmOnline on switched row',
+        $rowConf && $rowConf['transaction_ref'] === $txnSw, "txn_ref=" . ($rowConf['transaction_ref'] ?? 'null'));
+
+    // SW3-05: Paid row cannot be switched (both directions)
+    $rPaidBlock1 = $pmSw->switchMethod($swId, Payment::METHOD_CASH,   $testResidentId);
+    $rPaidBlock2 = $pmSw->switchMethod($swId, Payment::METHOD_ONLINE,  $testResidentId);
+    chk('SW3-12', 'Paid row: switchMethod to cash returns 0',   $rPaidBlock1 === 0, "rows=$rPaidBlock1");
+    chk('SW3-13', 'Paid row: switchMethod to online returns 0', $rPaidBlock2 === 0, "rows=$rPaidBlock2");
+
+    // SW3-06: request.status unchanged throughout all switch + confirm ops
+    $stSw = $pdo->prepare("SELECT status FROM requests WHERE id=:id");
+    $stSw->execute([':id'=>$swReqId]);
+    chk('SW3-14', 'request.status unchanged throughout all switch operations',
+        $stSw->fetchColumn() === 'ready_for_claiming');
+
+    // Cleanup switch test request
+    $pdo->prepare("DELETE FROM payments WHERE request_id=:id")->execute([':id'=>$swReqId]);
+    $pdo->prepare("DELETE FROM request_status_history WHERE request_id=:id")->execute([':id'=>$swReqId]);
+    $pdo->prepare("DELETE FROM requests WHERE id=:id")->execute([':id'=>$swReqId]);
+
+} else {
+    $swSkipReason = $migrationApplied ? 'missing test resident/fee' : 'migration not applied';
+    foreach (['SW3-01','SW3-02','SW3-03','SW3-04','SW3-05','SW3-06','SW3-07',
+              'SW3-08','SW3-09','SW3-10','SW3-11','SW3-12','SW3-13','SW3-14'] as $sid) {
+        chk($sid, "SKIP: $swSkipReason", false, $swSkipReason);
+    }
+}
 
 // ── Cleanup ────────────────────────────────────────────────────────────────────
 if (isset($testRequestId)) {

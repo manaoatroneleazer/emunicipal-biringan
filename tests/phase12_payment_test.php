@@ -360,6 +360,149 @@ foreach ($synFiles as $sf) {
     unset($out);
 }
 
+// ── SWITCH METHOD tests (Phase 12 section) ─────────────────────────────────────
+
+$residentCtrlSrc2 = file_get_contents($root . '/app/Controllers/Resident/PaymentController.php');
+$paymentSrc2      = file_get_contents($root . '/app/Models/Payment.php');
+$routesSrc2       = file_get_contents($root . '/routes/web.php');
+$showSrc          = file_get_contents($root . '/views/resident/requests/show.php');
+
+// Static checks
+chk('SW-ST-01', 'Payment model: switchMethod() defined',
+    str_contains($paymentSrc2, 'function switchMethod'));
+chk('SW-ST-02', 'switchMethod() uses conditional WHERE payment_status IN pending/online_pending',
+    str_contains($paymentSrc2, "AND `payment_status` IN (:pending, :online_pending)"));
+chk('SW-ST-03', 'switchMethod() resets transaction_ref to NULL on switch',
+    str_contains($paymentSrc2, '`transaction_ref` = NULL'));
+chk('SW-ST-04', 'switchMethod() resets confirmed_by to NULL on switch',
+    str_contains($paymentSrc2, '`confirmed_by`    = NULL'));
+chk('SW-ST-05', 'PaymentController: switchMethod() action defined',
+    str_contains($residentCtrlSrc2, 'function switchMethod'));
+chk('SW-ST-06', 'PaymentController: switchMethod blocks paid payments',
+    str_contains($residentCtrlSrc2, 'isPaid($existing)'));
+chk('SW-ST-07', 'PaymentController: switchMethod validates CSRF',
+    // validateCsrfToken appears multiple times; confirm it appears inside the switchMethod block
+    (function() use ($residentCtrlSrc2): bool {
+        $start = strpos($residentCtrlSrc2, 'function switchMethod');
+        $end   = strpos($residentCtrlSrc2, 'function show', $start);
+        if ($start === false || $end === false) return false;
+        $block = substr($residentCtrlSrc2, $start, $end - $start);
+        return str_contains($block, 'validateCsrfToken');
+    })());
+chk('SW-ST-08', 'Routes: payment switch POST route registered',
+    str_contains($routesSrc2, "'/resident/requests/{id}/payment/switch'") &&
+    str_contains($routesSrc2, 'switchMethod'));
+chk('SW-ST-09', 'show.php: Switch to Online button present in cash-pending branch',
+    str_contains($showSrc, 'new_method') && str_contains($showSrc, 'value="online"'));
+chk('SW-ST-10', 'show.php: Switch to Cash button present in online-pending branch',
+    str_contains($showSrc, 'value="cash"'));
+chk('SW-ST-11', 'show.php: payment/switch form action present',
+    str_contains($showSrc, 'payment/switch'));
+chk('SW-ST-12', 'switchMethod uses UPDATE not INSERT (no duplicate rows)',
+    (function() use ($paymentSrc2): bool {
+        $start = strpos($paymentSrc2, 'function switchMethod');
+        $end   = strpos($paymentSrc2, 'function confirm', $start);
+        if ($start === false || $end === false) return false;
+        $block = substr($paymentSrc2, $start, $end - $start);
+        return str_contains($block, 'UPDATE') && !str_contains($block, 'INSERT');
+    })());
+
+// Live DB switch tests (require Phase 3 migration)
+$swMigOk = false;
+$colRowSw = $pdo->query("SHOW COLUMNS FROM payments LIKE 'payment_method'")->fetch();
+if ($colRowSw) $swMigOk = str_contains($colRowSw['Type'] ?? '', "'online'");
+
+if ($swMigOk && $testRequestId) {
+    $pdo->prepare("DELETE FROM payments WHERE request_id = :rid")->execute([':rid' => $testRequestId]);
+    $pm = new Payment();
+
+    // Cash → Online
+    $swPayId = $pm->insertPending($testRequestId, $testDocFee, $testResidentId);
+    $r1 = $pm->switchMethod($swPayId, Payment::METHOD_ONLINE, $testResidentId);
+    $stmt = $pdo->prepare("SELECT * FROM payments WHERE id=:id");
+    $stmt->execute([':id' => $swPayId]);
+    $row1 = $stmt->fetch();
+    chk('SW-DB-01', 'switchMethod returns rowCount=1 on cash→online switch',
+        $r1 === 1, "rows=$r1");
+    chk('SW-DB-02', 'payment_method is online after cash→online switch',
+        $row1 && $row1['payment_method'] === 'online', "method=" . ($row1['payment_method'] ?? 'null'));
+    chk('SW-DB-03', 'payment_status is online_pending after switch to online',
+        $row1 && $row1['payment_status'] === 'online_pending', "status=" . ($row1['payment_status'] ?? 'null'));
+    chk('SW-DB-04', 'amount preserved after cash→online switch',
+        $row1 && (float)$row1['amount'] === $testDocFee, "amount=" . ($row1['amount'] ?? 'null'));
+    chk('SW-DB-05', 'transaction_ref is NULL after switch',
+        $row1 && ($row1['transaction_ref'] ?? null) === null, "txn_ref=" . ($row1['transaction_ref'] ?? 'null'));
+
+    $c1 = $pdo->prepare("SELECT COUNT(*) FROM payments WHERE request_id=:r");
+    $c1->execute([':r' => $testRequestId]);
+    chk('SW-DB-06', 'Only one payment row exists after cash→online switch',
+        (int)$c1->fetchColumn() === 1);
+
+    // Online → Cash
+    $r2 = $pm->switchMethod($swPayId, Payment::METHOD_CASH, $testResidentId);
+    $stmt2 = $pdo->prepare("SELECT * FROM payments WHERE id=:id");
+    $stmt2->execute([':id' => $swPayId]);
+    $row2 = $stmt2->fetch();
+    chk('SW-DB-07', 'switchMethod returns rowCount=1 on online→cash switch',
+        $r2 === 1, "rows=$r2");
+    chk('SW-DB-08', 'payment_method is cash after online→cash switch',
+        $row2 && $row2['payment_method'] === 'cash', "method=" . ($row2['payment_method'] ?? 'null'));
+    chk('SW-DB-09', 'payment_status is pending after switch back to cash',
+        $row2 && $row2['payment_status'] === 'pending', "status=" . ($row2['payment_status'] ?? 'null'));
+    chk('SW-DB-10', 'amount preserved after online→cash switch',
+        $row2 && (float)$row2['amount'] === $testDocFee, "amount=" . ($row2['amount'] ?? 'null'));
+
+    // Multiple switches keep exactly one row
+    $pm->switchMethod($swPayId, Payment::METHOD_ONLINE, $testResidentId);
+    $pm->switchMethod($swPayId, Payment::METHOD_CASH,   $testResidentId);
+    $pm->switchMethod($swPayId, Payment::METHOD_ONLINE, $testResidentId);
+    $cMulti = $pdo->prepare("SELECT COUNT(*) FROM payments WHERE request_id=:r");
+    $cMulti->execute([':r' => $testRequestId]);
+    chk('SW-DB-11', 'Multiple switches keep exactly one payment row',
+        (int)$cMulti->fetchColumn() === 1);
+
+    // Paid row cannot be switched
+    $pm->switchMethod($swPayId, Payment::METHOD_CASH, $testResidentId); // ensure pending
+    $pm->confirm($swPayId, $testResidentId, 'Lock test');               // mark paid
+    $rBlocked = $pm->switchMethod($swPayId, Payment::METHOD_ONLINE, $testResidentId);
+    chk('SW-DB-12', 'switchMethod returns 0 for already-paid row (blocked)',
+        $rBlocked === 0, "rows=$rBlocked");
+    $stmtPaid = $pdo->prepare("SELECT payment_method, payment_status FROM payments WHERE id=:id");
+    $stmtPaid->execute([':id' => $swPayId]);
+    $paidChk = $stmtPaid->fetch();
+    chk('SW-DB-13', 'Paid row payment_method unchanged after blocked switch',
+        $paidChk && $paidChk['payment_method'] === 'cash', "method=" . ($paidChk['payment_method'] ?? 'null'));
+    chk('SW-DB-14', 'Paid row payment_status still paid after blocked switch',
+        $paidChk && $paidChk['payment_status'] === 'paid', "status=" . ($paidChk['payment_status'] ?? 'null'));
+
+    // request.status unchanged throughout all switch operations
+    $stmtReq = $pdo->prepare("SELECT status FROM requests WHERE id=:id");
+    $stmtReq->execute([':id' => $testRequestId]);
+    chk('SW-DB-15', 'request.status unchanged after all switch operations',
+        $stmtReq->fetchColumn() === 'ready_for_claiming');
+
+} else {
+    $reason = $swMigOk ? 'no test request available' : 'Phase 3 migration not applied';
+    foreach (['SW-DB-01','SW-DB-02','SW-DB-03','SW-DB-04','SW-DB-05','SW-DB-06',
+              'SW-DB-07','SW-DB-08','SW-DB-09','SW-DB-10','SW-DB-11',
+              'SW-DB-12','SW-DB-13','SW-DB-14','SW-DB-15'] as $sid) {
+        chk($sid, "SKIP: $reason", false, $reason);
+    }
+}
+
+// Syntax checks for the four files touched by this feature
+foreach ([
+    'app/Models/Payment.php',
+    'app/Controllers/Resident/PaymentController.php',
+    'routes/web.php',
+    'views/resident/requests/show.php',
+] as $sf) {
+    exec("\"$phpBin\" -l \"{$root}/{$sf}\" 2>&1", $swOut, $swCode);
+    chk("SW-SYN-" . basename($sf), "Syntax: $sf", $swCode === 0,
+        $swCode === 0 ? 'OK' : implode(' ', $swOut));
+    unset($swOut);
+}
+
 // ── Cleanup ────────────────────────────────────────────────────────────────────
 // Remove all payment rows inserted during this test
 if ($testRequestId) {

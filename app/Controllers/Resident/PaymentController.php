@@ -43,7 +43,118 @@ use Emunicipal\Core\Logger;
 class PaymentController extends BaseController
 {
     // -------------------------------------------------------------------------
-    // GET /resident/requests/{id}/payment
+    // POST /resident/requests/{id}/payment/switch — Change payment method
+    // -------------------------------------------------------------------------
+
+    /**
+     * Switch an existing unpaid payment between cash and online (demo).
+     *
+     * Security:
+     *  All gates re-checked server-side (CSRF, ownership, status, fee).
+     *  Only allowed while payment_status IN ('pending', 'online_pending').
+     *  A paid row is never modified — switchMethod() returns 0 and the
+     *  controller redirects with an error.
+     *  Amount is never re-read from client input.
+     *
+     * On cash → online: redirects to the online payment selection page.
+     * On online → cash: redirects back to the request detail page.
+     */
+    public function switchMethod(string $id): void
+    {
+        AuthMiddleware::requireRole('resident');
+        $userId    = AuthMiddleware::userId();
+        $requestId = (int)$id;
+
+        if (!SecurityHelper::validateCsrfToken($_POST['_csrf_token'] ?? '')) {
+            SessionHelper::flash('error', 'Invalid security token. Please try again.');
+            UrlHelper::redirect('/resident/requests/' . $requestId);
+        }
+
+        // Re-validate request ownership and status
+        [$request, $fee] = $this->loadAndValidateRequest($requestId, $userId);
+
+        // Determine target method
+        $newMethod = trim($_POST['new_method'] ?? '');
+        if (!in_array($newMethod, [Payment::METHOD_CASH, Payment::METHOD_ONLINE], true)) {
+            SessionHelper::flash('error', 'Invalid payment method selected.');
+            UrlHelper::redirect('/resident/requests/' . $requestId);
+        }
+
+        // Load the existing payment row
+        try {
+            $existing = (new Payment())->findByRequestId($requestId);
+        } catch (\Throwable $e) {
+            Logger::error('PaymentController switchMethod (load existing): ' . $e->getMessage());
+            SessionHelper::flash('error', 'Unable to verify payment status. Please try again.');
+            UrlHelper::redirect('/resident/requests/' . $requestId);
+        }
+
+        if ($existing === false) {
+            // No payment yet — redirect to normal selection flow
+            SessionHelper::flash('error', 'No payment method has been selected yet.');
+            UrlHelper::redirect('/resident/requests/' . $requestId);
+        }
+
+        // Block switch if already paid
+        if (Payment::isPaid($existing)) {
+            SessionHelper::flash('error', 'This payment has already been confirmed and cannot be changed.');
+            UrlHelper::redirect('/resident/requests/' . $requestId);
+        }
+
+        // No-op: already set to the requested method
+        if (($existing['payment_method'] ?? '') === $newMethod) {
+            if ($newMethod === Payment::METHOD_ONLINE) {
+                UrlHelper::redirect('/resident/requests/' . $requestId . '/payment/online');
+            }
+            UrlHelper::redirect('/resident/requests/' . $requestId);
+        }
+
+        // Perform the switch inside a transaction
+        $paymentId = (int)$existing['id'];
+        $db = Database::getInstance();
+        $db->beginTransaction();
+        try {
+            $paymentModel = new Payment();
+            $rows = $paymentModel->switchMethod($paymentId, $newMethod, $userId);
+
+            if ($rows !== 1) {
+                // Should not happen (we checked isPaid above), but guard defensively
+                $db->rollBack();
+                Logger::error("PaymentController switchMethod: switchMethod returned {$rows} for payment {$paymentId}");
+                SessionHelper::flash('error', 'Payment method could not be changed. It may have already been confirmed.');
+                UrlHelper::redirect('/resident/requests/' . $requestId);
+            }
+
+            $db->commit();
+        } catch (\Throwable $e) {
+            $db->rollBack();
+            Logger::error('PaymentController switchMethod error: ' . $e->getMessage());
+            SessionHelper::flash('error', 'Payment method could not be changed. Please try again.');
+            UrlHelper::redirect('/resident/requests/' . $requestId);
+        }
+
+        // Audit log (non-fatal)
+        AuditLogService::log(
+            $userId, 'resident',
+            AuditLog::ACTION_PAYMENT_RECORDED,
+            'payments', 'payments', $paymentId,
+            ['method' => $existing['payment_method'], 'status' => $existing['payment_status']],
+            ['method' => $newMethod, 'status' => ($newMethod === Payment::METHOD_ONLINE ? Payment::STATUS_ONLINE_PENDING : Payment::STATUS_PENDING)],
+            "Resident ID {$userId} switched payment method from {$existing['payment_method']} to {$newMethod} for request ID {$requestId}"
+        );
+
+        // Redirect based on new method
+        if ($newMethod === Payment::METHOD_ONLINE) {
+            SessionHelper::flash('success', 'Payment method changed to Online Payment (Demo). Please complete the demo payment below.');
+            UrlHelper::redirect('/resident/requests/' . $requestId . '/payment/online');
+        } else {
+            SessionHelper::flash('success', 'Payment method changed to Cash. Please bring ₱' . number_format($fee, 2) . ' when you collect your document.');
+            UrlHelper::redirect('/resident/requests/' . $requestId);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // GET /resident/requests/{id}/payment — Redirect to detail
     // -------------------------------------------------------------------------
 
     /**
@@ -147,9 +258,13 @@ class PaymentController extends BaseController
         }
 
         if ($existing !== false) {
-            // Already selected or paid — go back to detail
-            SessionHelper::flash('error', 'A payment method has already been selected for this request.');
-            UrlHelper::redirect('/resident/requests/' . $requestId);
+            // If the existing row is online_pending (switched to online), allow rendering.
+            // Any other state (pending cash, or already paid) should redirect away.
+            if (($existing['payment_status'] ?? '') !== Payment::STATUS_ONLINE_PENDING) {
+                SessionHelper::flash('error', 'A payment method has already been selected for this request.');
+                UrlHelper::redirect('/resident/requests/' . $requestId);
+            }
+            // online_pending: fall through to render the page so the resident can complete it
         }
 
         // Load document type name for display
@@ -224,7 +339,30 @@ class PaymentController extends BaseController
             UrlHelper::redirect('/resident/requests/' . $requestId . '/payment/online');
         }
 
-        $this->assertNoPriorPayment($requestId);
+        // Duplicate guard: allow if no payment row, or if the existing row is already online_pending
+        // (which occurs after switchMethod sets it to online_pending).
+        // Block if cash-pending or already paid.
+        try {
+            $existingForDup = (new Payment())->findByRequestId($requestId);
+        } catch (\Throwable $e) {
+            Logger::error('PaymentController processOnline assertDup: ' . $e->getMessage());
+            SessionHelper::flash('error', 'Unable to verify payment status. Please try again.');
+            UrlHelper::redirect('/resident/requests/' . $requestId . '/payment/online');
+        }
+
+        if ($existingForDup !== false) {
+            $existingStatus = $existingForDup['payment_status'] ?? '';
+            if ($existingStatus === Payment::STATUS_PAID) {
+                SessionHelper::flash('error', 'This payment has already been confirmed.');
+                UrlHelper::redirect('/resident/requests/' . $requestId);
+            }
+            if ($existingStatus === Payment::STATUS_PENDING) {
+                // Cash-pending row exists — not an online_pending row
+                SessionHelper::flash('error', 'A cash payment method has already been selected. Use Change Method to switch.');
+                UrlHelper::redirect('/resident/requests/' . $requestId);
+            }
+            // STATUS_ONLINE_PENDING: the resident switched to online and is now completing it — allowed
+        }
 
         // ── Simulate success or failure ────────────────────────────────────────
         // The client may submit simulate_result=fail to test the failure path.
@@ -248,13 +386,19 @@ class PaymentController extends BaseController
         try {
             $paymentModel = new Payment();
 
-            // Step 1: INSERT with online_pending status
-            $paymentId = $paymentModel->insertOnlinePending($requestId, $fee, $userId);
+            // Step 1: Get or create the online_pending payment row.
+            // If we arrived here via switchMethod(), the row already exists as online_pending.
+            // If we arrived fresh (no prior payment), insert a new online_pending row.
+            if ($existingForDup !== false && ($existingForDup['payment_status'] ?? '') === Payment::STATUS_ONLINE_PENDING) {
+                $paymentId = (int)$existingForDup['id'];
+            } else {
+                $paymentId = $paymentModel->insertOnlinePending($requestId, $fee, $userId);
+            }
 
             // Step 2: Immediately confirm (auto-confirm on successful simulation)
             // The conditional UPDATE (WHERE payment_status='online_pending') is
             // the server-side gate — client can never bypass this.
-            $rows = $paymentModel->confirmOnline($paymentId, $userId, $transactionRef);
+            $rows = $paymentModel->confirmOnline($paymentId, $transactionRef, $userId);
 
             if ($rows !== 1) {
                 // Should never happen within the same transaction, but guard anyway
