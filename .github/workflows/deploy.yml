@@ -21,4 +21,35 @@ jobs:
           REMOTE_PORT: ${{ secrets.SSH_PORT }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           ARGS: "-avzr --delete"
-          EXCLUDE: "/.git/, /.github/, /.gitignore, /.env"
+          EXCLUDE: >-
+            /.git/,
+            /.github/,
+            /.gitignore,
+            /.env,
+            /vendor/,
+            /storage/logs/,
+            /storage/uploads/
+
+      - name: Install Composer dependencies on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+            cd "${{ secrets.REMOTE_TARGET }}"
+            $HOME/.local/bin/composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Verify autoloader is present
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            test -f "${{ secrets.REMOTE_TARGET }}/vendor/autoload.php" \
+              && echo "OK: vendor/autoload.php exists" \
+              || { echo "FAIL: vendor/autoload.php missing"; exit 1; }
