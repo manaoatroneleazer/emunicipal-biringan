@@ -425,6 +425,10 @@ $e = fn(string $v) => htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
 
     function formatDate(iso, includeTime) {
         if (!iso) return '\u2014';
+        // The database stores DATETIME values in Philippine Standard Time (PHT, UTC+8).
+        // By appending no timezone suffix, browsers parse the string as local time —
+        // which is correct for Filipino users. Do NOT append 'Z' (that would treat the
+        // value as UTC and display it 8 hours late for a user in UTC+8).
         var d = new Date(String(iso).replace(' ', 'T'));
         if (isNaN(d.getTime())) return String(iso);
         var months = ['January','February','March','April','May','June',

@@ -31,23 +31,30 @@ class Application
 
         self::$app = $this;
 
-        // 1. Initialise logger first so subsequent steps can log errors
+        // 1. Set application timezone to Philippine Standard Time (UTC+8)
+        //    Must be the very first action — all date() and strtotime() calls
+        //    anywhere in the application depend on this being set before they run.
+        //    The schema uses DATETIME columns (not TIMESTAMP), so timestamps are
+        //    stored as local PHT values; this setting must match that convention.
+        date_default_timezone_set('Asia/Manila');
+
+        // 2. Initialise logger first so subsequent steps can log errors
         Logger::init($this->basePath);
 
-        // 2. Configure PHP error handling based on APP_DEBUG
+        // 3. Configure PHP error handling based on APP_DEBUG
         $this->configureErrorHandling();
 
-        // 3. Start secure session
+        // 4. Start secure session
         SessionHelper::start();
 
-        // 4. Load app config
+        // 5. Load app config
         $this->config = require $this->basePath . '/config/app.php';
 
-        // 5. Build the router (strips /eMunicipal prefix from URIs automatically)
+        // 6. Build the router (strips /eMunicipal prefix from URIs automatically)
         $urlPath = parse_url($this->config['url'] ?? '', PHP_URL_PATH) ?? '';
         $this->router = new Router($urlPath);
 
-        // 6. Apply runtime settings from system_settings DB into $_ENV
+        // 7. Apply runtime settings from system_settings DB into $_ENV
         //    so AuthMiddleware, FileUploadService, and pagination controllers
         //    see the persisted configured values on every request. (Req 20.5)
         //    Non-fatal: if DB is unavailable, .env defaults stand.

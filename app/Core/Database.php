@@ -48,6 +48,15 @@ class Database
                 $config['password'],
                 $config['options']
             );
+
+            // Set the MySQL session timezone to Philippine Standard Time (UTC+8)
+            // so that NOW(), DEFAULT CURRENT_TIMESTAMP, and ON UPDATE CURRENT_TIMESTAMP
+            // all produce PHT values that match the application's PHP timezone.
+            // The schema uses DATETIME columns (not TIMESTAMP), so values are stored
+            // as-is without further timezone conversion — this session variable ensures
+            // MySQL's clock agrees with PHP's clock on every connection.
+            self::$instance->exec("SET time_zone = '+08:00'");
+
         } catch (PDOException $e) {
             // Log technical detail server-side; surface a safe message to caller
             Logger::error('Database connection failed: ' . $e->getMessage());
