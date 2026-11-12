@@ -5971,3 +5971,63 @@ body.modal-open .rn-content { transform: none !important; }
     }
 }
 
+
+/* ── FIX: Admin Requests table — scoped overflow & min-width ──────────────
+   Root cause: The 7-column requests table (Ref · Resident · Doc Type ·
+   Assigned Staff · Status · Submitted · Action) has no min-width, so at
+   narrower content-area widths the columns collapse and overlap.
+   The status-tabs bar above it also overflows without horizontal scroll.
+   Fix mirrors the existing #admin-users-table-wrap pattern.
+   Scoped to #admin-requests-table-wrap so no other table is affected.
+   ──────────────────────────────────────────────────────────────────────── */
+#admin-requests-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+#admin-requests-table-wrap .table { min-width: 820px; }
+#admin-requests-table-wrap .table td,
+#admin-requests-table-wrap .table th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px;
+}
+/* Give the reference column a fixed comfortable width */
+#admin-requests-table-wrap .table th:first-child,
+#admin-requests-table-wrap .table td:first-child { min-width: 160px; max-width: 180px; }
+/* Resident column */
+#admin-requests-table-wrap .table th:nth-child(2),
+#admin-requests-table-wrap .table td:nth-child(2) { min-width: 140px; max-width: 180px; }
+/* Document Type column */
+#admin-requests-table-wrap .table th:nth-child(3),
+#admin-requests-table-wrap .table td:nth-child(3) { min-width: 160px; max-width: 200px; }
+/* Action column — never clip the button */
+#admin-requests-table-wrap .table-actions { min-width: 90px; max-width: 120px; white-space: nowrap; }
+
+/* ── FIX: Admin Payments table — scoped overflow & min-width ─────────────
+   10-column payment history table needs horizontal scroll on small screens.
+   ──────────────────────────────────────────────────────────────────────── */
+#admin-payments-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+#admin-payments-table-wrap .table { min-width: 980px; }
+#admin-payments-table-wrap .table td,
+#admin-payments-table-wrap .table th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 180px;
+}
+#admin-payments-table-wrap .table td:nth-child(4),
+#admin-payments-table-wrap .table th:nth-child(4) { min-width: 130px; }  /* Resident */
+#admin-payments-table-wrap .table td:nth-child(5),
+#admin-payments-table-wrap .table th:nth-child(5) { min-width: 150px; }  /* Doc Type */

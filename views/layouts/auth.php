@@ -246,6 +246,13 @@ $profileUrl = match($role) {
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link <?= $activePage === 'payments' ? 'active' : '' ?>"
+               href="<?= $appUrl ?>/admin/payments"
+               <?= $activePage === 'payments' ? 'aria-current="page"' : '' ?>>
+                <i class="bi bi-credit-card-2-front" aria-hidden="true"></i> Payment History
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link <?= $activePage === 'audit-logs' ? 'active' : '' ?>"
                href="<?= $appUrl ?>/admin/audit-logs"
                <?= $activePage === 'audit-logs' ? 'aria-current="page"' : '' ?>>

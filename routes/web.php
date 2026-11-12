@@ -30,6 +30,7 @@ use Emunicipal\Controllers\Admin\AdminRequestController;
 use Emunicipal\Controllers\FileController;
 use Emunicipal\Controllers\Staff\StaffNotificationController;
 use Emunicipal\Controllers\Admin\AdminNotificationController;
+use Emunicipal\Controllers\Admin\AdminPaymentController;
 use Emunicipal\Controllers\Admin\ReportController;
 use Emunicipal\Controllers\Admin\AuditLogController;
 use Emunicipal\Controllers\Admin\SystemSettingController;
@@ -158,6 +159,9 @@ $router->post('/admin/requests/{id}/status',                  AdminRequestContro
 
 // Admin Reports (Req 12.2–12.3)
 $router->get('/admin/reports',                                ReportController::class,         'index');
+
+// Admin Payment History (admin-only read-only view)
+$router->get('/admin/payments',                               AdminPaymentController::class,   'index');
 
 // Admin Audit Logs (Req 12.4, 12.6, 13.3) — read-only, no POST/edit/delete routes
 $router->get('/admin/audit-logs',                             AuditLogController::class,       'index');

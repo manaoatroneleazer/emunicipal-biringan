@@ -145,7 +145,7 @@ $statusBadge = function(string $s) use ($e): string {
 <!-- Requests table — always rendered; empty state lives inside <tbody> (Req 17.3, 19.1) -->
 <div class="card">
     <div class="card-body p-0">
-        <div class="table-responsive">
+        <div id="admin-requests-table-wrap">
             <table class="table table-hover mb-0" aria-label="All document requests">
                 <thead>
                     <tr>
@@ -220,7 +220,7 @@ $statusBadge = function(string $s) use ($e): string {
                     <?php endif; ?>
                 </tbody>
             </table>
-        </div>
+        </div><!-- /#admin-requests-table-wrap -->
         <?php if (!empty($requests)): ?>
         <?php
         $totalRows   = (int)($totalRows   ?? 0);
